@@ -25,7 +25,7 @@ function Topbar({ isDark, onToggleDark }) {
 				</button>
 
 				<button className={styles.iconBtn} title={user?.name}>
-					<span className={styles.avatar}>{user?.avatar}</span>
+					<span className={styles.avatar}>{user?.name?.[0]}</span>
 				</button>
 			</div>
 		</header>

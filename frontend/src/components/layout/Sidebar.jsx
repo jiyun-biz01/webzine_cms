@@ -24,11 +24,11 @@ function Sidebar({ isCollapsed, onToggle }) {
 			{/* 유저 프로필 - 펼쳐진 상태 */}
 			{!isCollapsed && user && (
 				<div className={styles.userProfile}>
-					<div className={styles.userAvatar}>{user.avatar}</div>
+					<div className={styles.userAvatar}>{user.name?.[0]}</div>
 					<div className={styles.userInfo}>
 						<strong className={styles.userName}>{user.name}</strong>
 						<span className={styles.userRole}>{user.role}</span>
-						<span className={styles.userId}>@{user.id}</span>
+						<span className={styles.userId}>@{user.username}</span>
 					</div>
 				</div>
 			)}
@@ -36,7 +36,7 @@ function Sidebar({ isCollapsed, onToggle }) {
 			{/* 유저 아바타 - 접힌 상태 */}
 			{isCollapsed && user && (
 				<div className={styles.userAvatarCollapsed} title={user.name}>
-					{user.avatar}
+					{user.name?.[0]}
 				</div>
 			)}
 
