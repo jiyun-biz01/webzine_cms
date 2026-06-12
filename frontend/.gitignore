@@ -5,9 +5,9 @@ node_modules/
 .env
 .env.local
 .env.*.local
-.env.development
 .env.production
 .env.staging
+!.env.development
 !.env.example
 
 # ===== 빌드 산출물 =====

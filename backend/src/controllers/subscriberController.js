@@ -1,133 +1,113 @@
-import subscribers from "../data/subscribers.js";
+import { supabase } from "../lib/supabase.js";
 
-// ============================================
-// subscriberController - 구독자 관련 로직
-//
-// 실제 DB 연동 시:
-//   subscribers 배열 → ORM(Prisma, Mongoose 등) 쿼리로 교체
-//   id 자동 생성 → DB auto-increment / ObjectId로 교체
-// ============================================
-
-function today() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-function nextId() {
-  return subscribers.length > 0 ? Math.max(...subscribers.map((s) => s.id)) + 1 : 1;
-}
-
-// ── 관리자: 구독자 목록 조회 ───────────────────
 // GET /subscribers
-// Query: page, limit, search, status
-export function getSubscribers(req, res) {
+export async function getSubscribers(req, res) {
   const page   = parseInt(req.query.page)  || 1;
   const limit  = parseInt(req.query.limit) || 10;
   const search = req.query.search?.trim()  || "";
   const status = req.query.status          || "";
 
-  let filtered = subscribers;
+  let query = supabase
+    .from("subscribers")
+    .select("*", { count: "exact" });
 
-  if (search) {
-    filtered = filtered.filter((s) => s.email.toLowerCase().includes(search.toLowerCase()));
-  }
-  if (status) {
-    filtered = filtered.filter((s) => s.status === status);
-  }
+  if (status) query = query.eq("status", status);
+  if (search) query = query.ilike("email", `%${search}%`);
 
-  const total = filtered.length;
-  const data  = filtered.slice((page - 1) * limit, page * limit);
+  const { data, count, error } = await query
+    .order("subscribed_at", { ascending: false })
+    .range((page - 1) * limit, page * limit - 1);
 
+  if (error) return res.status(500).json({ message: error.message });
+
+  const { data: statsData } = await supabase.from("subscribers").select("status");
+  const all = statsData || [];
   const stats = {
-    total:    subscribers.length,
-    active:   subscribers.filter((s) => s.status === "active").length,
-    inactive: subscribers.filter((s) => s.status === "inactive").length,
+    total:    all.length,
+    active:   all.filter((s) => s.status === "active").length,
+    inactive: all.filter((s) => s.status === "inactive").length,
   };
 
-  return res.json({ data, total, page, limit, stats });
+  return res.json({ data, total: count, page, limit, stats });
 }
 
-// ── 관리자: 구독자 단건 조회 ───────────────────
 // GET /subscribers/:id
-export function getSubscriber(req, res) {
-  const id  = parseInt(req.params.id);
-  const sub = subscribers.find((s) => s.id === id);
+export async function getSubscriber(req, res) {
+  const { data: sub, error } = await supabase
+    .from("subscribers")
+    .select("*")
+    .eq("id", req.params.id)
+    .single();
 
-  if (!sub) {
+  if (error || !sub) {
     return res.status(404).json({ message: "구독자를 찾을 수 없습니다." });
   }
 
   return res.json(sub);
 }
 
-// ── 관리자: 구독자 등록 ────────────────────────
 // POST /subscribers
-// Body: { email }
-export function createSubscriber(req, res) {
+export async function createSubscriber(req, res) {
   const email = req.body.email?.trim().toLowerCase();
+  if (!email) return res.status(400).json({ message: "이메일을 입력해주세요." });
 
-  if (!email) {
-    return res.status(400).json({ message: "이메일을 입력해주세요." });
-  }
-
-  const existing = subscribers.find((s) => s.email.toLowerCase() === email);
+  const { data: existing } = await supabase
+    .from("subscribers")
+    .select("*")
+    .eq("email", email)
+    .single();
 
   if (existing) {
     if (existing.status === "active") {
       return res.status(409).json({ message: "이미 구독 중인 이메일입니다." });
     }
-    // 비활성 → 재활성화
-    existing.status        = "active";
-    existing.subscribedAt  = today();
-    existing.unsubscribedAt = null;
-    return res.json(existing);
+    const { data: updated } = await supabase
+      .from("subscribers")
+      .update({ status: "active", subscribed_at: new Date().toISOString(), unsubscribed_at: null })
+      .eq("id", existing.id)
+      .select()
+      .single();
+    return res.json(updated);
   }
 
-  const newRecord = {
-    id: nextId(),
-    email,
-    status: "active",
-    subscribedAt: today(),
-    unsubscribedAt: null,
-  };
-  subscribers.unshift(newRecord);
-  return res.status(201).json(newRecord);
+  const { data: newSub, error } = await supabase
+    .from("subscribers")
+    .insert({ email, status: "active" })
+    .select()
+    .single();
+
+  if (error) return res.status(500).json({ message: error.message });
+  return res.status(201).json(newSub);
 }
 
-// ── 관리자: 비활성화 ───────────────────────────
 // PATCH /subscribers/:id/deactivate
-export function deactivateSubscriber(req, res) {
-  const id  = parseInt(req.params.id);
-  const sub = subscribers.find((s) => s.id === id);
+export async function deactivateSubscriber(req, res) {
+  const { data: sub, error } = await supabase
+    .from("subscribers")
+    .update({ status: "inactive", unsubscribed_at: new Date().toISOString() })
+    .eq("id", req.params.id)
+    .select()
+    .single();
 
-  if (!sub) {
-    return res.status(404).json({ message: "구독자를 찾을 수 없습니다." });
-  }
-
-  sub.status         = "inactive";
-  sub.unsubscribedAt = today();
+  if (error || !sub) return res.status(404).json({ message: "구독자를 찾을 수 없습니다." });
   return res.json(sub);
 }
 
-// ── 관리자: 활성화 ─────────────────────────────
 // PATCH /subscribers/:id/activate
-export function activateSubscriber(req, res) {
-  const id  = parseInt(req.params.id);
-  const sub = subscribers.find((s) => s.id === id);
+export async function activateSubscriber(req, res) {
+  const { data: sub, error } = await supabase
+    .from("subscribers")
+    .update({ status: "active", subscribed_at: new Date().toISOString(), unsubscribed_at: null })
+    .eq("id", req.params.id)
+    .select()
+    .single();
 
-  if (!sub) {
-    return res.status(404).json({ message: "구독자를 찾을 수 없습니다." });
-  }
-
-  sub.status         = "active";
-  sub.subscribedAt   = today();
-  sub.unsubscribedAt = null;
+  if (error || !sub) return res.status(404).json({ message: "구독자를 찾을 수 없습니다." });
   return res.json(sub);
 }
 
-// ── 관리자: 일괄 처리 ─────────────────────────
 // POST /subscribers/bulk
-// Body: { action: "activate"|"deactivate", ids: [1, 2, ...] }
-export function bulkAction(req, res) {
+export async function bulkAction(req, res) {
   const { action, ids } = req.body;
 
   if (!action || !Array.isArray(ids) || ids.length === 0) {
@@ -137,73 +117,68 @@ export function bulkAction(req, res) {
     return res.status(400).json({ message: "action은 activate 또는 deactivate 이어야 합니다." });
   }
 
-  ids.forEach((id) => {
-    const sub = subscribers.find((s) => s.id === parseInt(id));
-    if (!sub) return;
+  const updateData = action === "deactivate"
+    ? { status: "inactive", unsubscribed_at: new Date().toISOString() }
+    : { status: "active",   subscribed_at:   new Date().toISOString(), unsubscribed_at: null };
 
-    if (action === "deactivate" && sub.status === "active") {
-      sub.status         = "inactive";
-      sub.unsubscribedAt = today();
-    } else if (action === "activate" && sub.status === "inactive") {
-      sub.status         = "active";
-      sub.subscribedAt   = today();
-      sub.unsubscribedAt = null;
-    }
-  });
+  const { error } = await supabase
+    .from("subscribers")
+    .update(updateData)
+    .in("id", ids);
 
+  if (error) return res.status(500).json({ message: error.message });
   return res.json({ message: `${ids.length}건 처리 완료` });
 }
 
-// ── 공개: 구독 신청 ────────────────────────────
 // POST /subscribers/public/subscribe
-// Body: { email }
-export function publicSubscribe(req, res) {
+export async function publicSubscribe(req, res) {
   const email = req.body.email?.trim().toLowerCase();
+  if (!email) return res.status(400).json({ message: "이메일을 입력해주세요." });
 
-  if (!email) {
-    return res.status(400).json({ message: "이메일을 입력해주세요." });
-  }
-
-  const existing = subscribers.find((s) => s.email.toLowerCase() === email);
+  const { data: existing } = await supabase
+    .from("subscribers")
+    .select("*")
+    .eq("email", email)
+    .single();
 
   if (existing) {
     if (existing.status === "active") {
       return res.status(409).json({ message: "이미 구독 중인 이메일입니다." });
     }
-    existing.status         = "active";
-    existing.subscribedAt   = today();
-    existing.unsubscribedAt = null;
+    await supabase
+      .from("subscribers")
+      .update({ status: "active", subscribed_at: new Date().toISOString(), unsubscribed_at: null })
+      .eq("id", existing.id);
     return res.json({ reactivated: true });
   }
 
-  subscribers.push({
-    id: nextId(),
-    email,
-    status: "active",
-    subscribedAt: today(),
-    unsubscribedAt: null,
-  });
+  const { error } = await supabase
+    .from("subscribers")
+    .insert({ email, status: "active" });
 
+  if (error) return res.status(500).json({ message: error.message });
   return res.status(201).json({ reactivated: false });
 }
 
-// ── 공개: 구독 취소 ────────────────────────────
 // POST /subscribers/public/unsubscribe
-// Body: { email }
-export function publicUnsubscribe(req, res) {
+export async function publicUnsubscribe(req, res) {
   const email = req.body.email?.trim().toLowerCase();
+  if (!email) return res.status(400).json({ message: "이메일을 입력해주세요." });
 
-  if (!email) {
-    return res.status(400).json({ message: "이메일을 입력해주세요." });
-  }
-
-  const existing = subscribers.find((s) => s.email.toLowerCase() === email);
+  const { data: existing } = await supabase
+    .from("subscribers")
+    .select("*")
+    .eq("email", email)
+    .single();
 
   if (!existing || existing.status === "inactive") {
     return res.status(404).json({ message: "구독 중인 이메일을 찾을 수 없습니다." });
   }
 
-  existing.status         = "inactive";
-  existing.unsubscribedAt = today();
+  await supabase
+    .from("subscribers")
+    .update({ status: "inactive", unsubscribed_at: new Date().toISOString() })
+    .eq("id", existing.id);
+
   return res.json({ message: "구독이 취소되었습니다." });
 }
