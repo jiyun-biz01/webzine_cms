@@ -1,0 +1,94 @@
+/* ============================================
+   menu.css - 사이드바 메뉴 아이템 글로벌 스타일
+   MenuItem.jsx 에서 사용하는 클래스들을 정의합니다.
+   ============================================ */
+
+/* ── 메뉴 버튼 공통 ── */
+.menu-btn {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-sm) var(--spacing-md);
+	background: none;
+	border: none;
+	color: var(--text-secondary);
+	font-size: var(--fs-sm);
+	font-weight: var(--fw-medium);
+	font-family: var(--font-base);
+	cursor: pointer;
+	text-align: left;
+	text-decoration: none; /* NavLink(<a>태그)의 밑줄 제거 */
+	position: relative;
+	transition: all var(--transition-fast);
+	white-space: nowrap;
+	border-radius: 0;
+}
+.menu-btn:hover {
+	background-color: var(--bg-secondary);
+	color: var(--text-primary);
+}
+.menu-btn.active {
+	background-color: var(--primary-lighter);
+	color: var(--primary);
+	font-weight: var(--fw-semibold);
+}
+.menu-btn.active::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 20%;
+	bottom: 20%;
+	width: 3px;
+	background-color: var(--primary);
+	border-radius: 0 3px 3px 0;
+}
+
+/* ── 아이콘 / 레이블 / 화살표 ── */
+.menu-icon {
+	font-size: 14px;
+	width: 20px;
+	text-align: center;
+	flex-shrink: 0;
+	line-height: 1;
+}
+
+.menu-label {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.menu-arrow {
+	font-size: 1.1rem;
+	color: var(--text-tertiary);
+	transition: transform var(--transition-fast);
+	flex-shrink: 0;
+}
+.menu-arrow.open {
+	transform: rotate(90deg);
+}
+
+/* ── 깊이 표시 점 (2차, 3차 메뉴) ── */
+.menu-depth-dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background-color: var(--border-color);
+	flex-shrink: 0;
+	transition: background-color var(--transition-fast);
+}
+.menu-btn.active .menu-depth-dot {
+	background-color: var(--primary);
+}
+
+/* ── 서브메뉴 컨테이너 ── */
+.submenu {
+	list-style: none;
+}
+.submenu-depth-1 {
+	background-color: var(--bg-secondary);
+}
+.submenu-depth-2 {
+	background-color: var(--bg-tertiary);
+}

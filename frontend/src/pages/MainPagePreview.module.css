@@ -1,0 +1,178 @@
+/* 미리보기 전체 컨테이너 */
+.preview {
+	background-color: var(--bg-secondary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-lg);
+	padding: var(--spacing-xl);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xl);
+}
+
+/* ── 웹진 헤더 ── */
+.siteHeader {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	padding-bottom: var(--spacing-md);
+	border-bottom: 2px solid var(--primary);
+}
+
+.siteName {
+	font-family: var(--font-title);
+	font-size: var(--fs-xl);
+	font-weight: var(--fw-bold);
+	color: var(--primary);
+	letter-spacing: 4px;
+}
+
+.siteDate {
+	font-size: var(--fs-xs);
+	color: var(--text-tertiary);
+}
+
+/* ── 섹션 공통 ── */
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+}
+
+.sectionLabel {
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-bold);
+	color: var(--text-tertiary);
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	padding-bottom: var(--spacing-sm);
+	border-bottom: 1px solid var(--border-color);
+}
+
+/* ── 헤드라인 히어로 카드 ── */
+.heroCard {
+	border-radius: var(--border-radius-lg);
+	background: linear-gradient(
+		135deg,
+		var(--primary-dark) 0%,
+		var(--primary) 60%,
+		var(--primary-light) 100%
+	);
+	overflow: hidden;
+	min-height: 240px;
+	display: flex;
+	align-items: flex-end;
+}
+
+.heroInner {
+	padding: var(--spacing-xl);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	width: 100%;
+	background: linear-gradient(to top, rgba(0,0,0,0.45), transparent);
+}
+
+.heroBadge {
+	align-self: flex-start;
+}
+
+.heroTitle {
+	font-size: var(--fs-xl);
+	font-weight: var(--fw-bold);
+	color: #ffffff;
+	line-height: var(--leading-tight);
+	margin: 0;
+}
+
+.heroMeta {
+	font-size: var(--fs-xs);
+	color: rgba(255, 255, 255, 0.75);
+	margin: 0;
+}
+
+/* ── 특집 기사 그리드 ── */
+.featuredGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--spacing-md);
+}
+
+.featuredCard {
+	background: var(--bg-primary);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-lg);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.cardColorBar {
+	height: 4px;
+	background: linear-gradient(to right, var(--primary), var(--primary-light));
+}
+
+.cardBody {
+	padding: var(--spacing-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	flex: 1;
+}
+
+.cardTitle {
+	font-size: var(--fs-sm);
+	font-weight: var(--fw-semibold);
+	color: var(--text-primary);
+	line-height: var(--leading-tight);
+	margin: 0;
+	/* 3줄까지 표시 */
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.cardMeta {
+	font-size: var(--fs-xs);
+	color: var(--text-tertiary);
+	margin: 0;
+	margin-top: auto;
+}
+
+/* ── 추천 기사 그리드 ── */
+.recommendedGrid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: var(--spacing-md);
+}
+
+.recommendedCard {
+	background: var(--bg-primary);
+	border: 1px solid var(--border-color);
+	border-left: 3px solid var(--primary);
+	border-radius: var(--border-radius-md);
+	padding: var(--spacing-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.recommendedTitle {
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-semibold);
+	color: var(--text-primary);
+	line-height: var(--leading-tight);
+	margin: 0;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* 반응형 */
+@media (max-width: 767px) {
+	.featuredGrid,
+	.recommendedGrid {
+		grid-template-columns: 1fr;
+	}
+}

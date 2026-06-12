@@ -1,0 +1,85 @@
+/* ============================================
+   table.css
+   사용법: className="table"
+           className="table table-hover"
+   ============================================ */
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+	font-size: var(--fs-sm);
+}
+
+.table thead {
+	background-color: var(--bg-secondary);
+}
+
+.table th {
+	padding: var(--spacing-sm) var(--spacing-md);
+	text-align: center;
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-bold);
+	color: var(--text-secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	border-bottom: 1px solid var(--border-color);
+	white-space: nowrap;
+}
+
+.table td {
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-bottom: 1px solid var(--border-color);
+	color: var(--text-primary);
+	vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.tableCenter {
+	text-align:center;
+}
+
+
+/* ── 호버 옵션 ── */
+.table tbody tr {
+	transition: background-color var(--transition-fast);
+}
+.table tbody tr:hover {
+	background-color: var(--bg-secondary);
+}
+
+/* ── 페이지네이션 ── */
+.pagination {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.page-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 32px;
+	height: 32px;
+	padding: 0 var(--spacing-sm);
+	border-radius: var(--border-radius-sm);
+	border: 1px solid var(--border-color);
+	background-color: var(--bg-primary);
+	color: var(--text-secondary);
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-medium);
+	cursor: pointer;
+	transition: all var(--transition-fast);
+}
+.page-btn:hover {
+	border-color: var(--primary);
+	color: var(--primary);
+}
+.page-btn.active {
+	background-color: var(--primary);
+	border-color: var(--primary);
+	color: var(--text-inverse);
+	font-weight: var(--fw-bold);
+}

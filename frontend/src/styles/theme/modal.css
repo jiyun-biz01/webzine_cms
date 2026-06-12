@@ -1,0 +1,101 @@
+/* ============================================
+   modal.css
+   사용법: className="modal-overlay"
+           className="modal"
+           className="spinner"
+   ============================================ */
+
+/* ── 오버레이 ── */
+.modal-overlay {
+	position: fixed;
+	inset: 0;                           /* top/right/bottom/left 0 단축 */
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: var(--z-modal-backdrop);
+	padding: var(--spacing-md);         /* 모바일에서 여백 */
+}
+
+/* ── 모달 박스 ── */
+.modal {
+	background-color: var(--bg-primary);
+	border-radius: var(--border-radius-lg);
+	box-shadow: var(--shadow-xl);
+	width: 100%;
+	max-width: 520px;
+	max-height: 90vh;
+	overflow-y: auto;
+	z-index: var(--z-modal);
+	animation: modalSlideUp 0.25s ease-out;
+}
+
+.modal-sm { max-width: 360px; }
+.modal-lg { max-width: 760px; }
+
+.modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--spacing-lg);
+	border-bottom: 1px solid var(--border-color);
+}
+.modal-header h3 { margin: 0; font-size: var(--fs-md); }
+
+.modal-body {
+	padding: var(--spacing-lg);
+}
+
+.modal-footer {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-md) var(--spacing-lg);
+	border-top: 1px solid var(--border-color);
+	background-color: var(--bg-secondary);
+}
+
+/* ── 모달 닫기 버튼 ── */
+.modal-close {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: var(--border-radius-sm);
+	border: none;
+	background: none;
+	color: var(--text-secondary);
+	font-size: 1.2rem;
+	cursor: pointer;
+	padding: 0;
+	transition: all var(--transition-fast);
+}
+.modal-close:hover {
+	background-color: var(--bg-tertiary);
+	color: var(--text-primary);
+}
+
+/* ── 스피너 ── */
+.spinner {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--border-color);
+	border-top-color: var(--primary);
+	border-radius: 50%;
+	animation: spin 0.7s linear infinite;
+	flex-shrink: 0;
+}
+.spinner-sm { width: 14px; height: 14px; }
+.spinner-lg { width: 32px; height: 32px; border-width: 3px; }
+
+/* ── 애니메이션 ── */
+@keyframes modalSlideUp {
+	from { opacity: 0; transform: translateY(20px) scale(0.98); }
+	to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+@keyframes spin {
+	to { transform: rotate(360deg); }
+}

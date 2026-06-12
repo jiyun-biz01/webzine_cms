@@ -1,0 +1,159 @@
+:root {
+	--primary: #1f7a63;
+	--primary-dark: #155a47;
+	--primary-light: #4a9b83;
+	--primary-lighter: #e8f4f1;
+
+	--bg-primary: #ffffff;
+	--bg-secondary: #f5f5f5;
+	--bg-tertiary: #eeeeee;
+
+	--text-primary: #1a1a1a;
+	--text-secondary: #666666;
+	--text-tertiary: #999999;
+	--text-inverse: #ffffff;
+
+	--font-base:
+		"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+		system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+		"Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+		"Segoe UI Symbol", sans-serif;
+	--font-title: "Paperlogy", sans-serif;
+
+	--fs-xs: clamp(12px, calc(0.3vw + 15.04px), 14px);
+	--fs-sm: clamp(14px, calc(0.3vw + 15.04px), 16px);
+	--fs-md: clamp(16px, calc(0.3vw + 15.04px), 20px);
+	--fs-lg: clamp(20px, calc(0.3vw + 15.04px), 24px);
+	--fs-xl: clamp(24px, calc(0.3vw + 15.04px), 28px);
+	--fs-2xl: clamp(28px, calc(0.3vw + 15.04px), 36px);
+	--fs-3xl: clamp(36px, calc(0.3vw + 15.04px), 48px);
+
+	--fw-regular: 400;
+	--fw-medium: 500;
+	--fw-semibold: 600;
+	--fw-bold: 700;
+
+	--leading-tight: 1.3;
+	--leading-normal: 1.5;
+	--leading-loose: 1.7;
+
+	--success: #22c55e; /* 성공 */
+	--warning: #f59e0b; /* 경고 */
+	--danger: #ef4444; /* 위험 */
+	--info: #3b82f6; /* 정보 */
+
+	--success-light: #dcfce7;
+	--warning-light: #fef3c7;
+	--danger-light: #fee2e2;
+	--info-light: #dbeafe;
+
+	--success-dark: #16a34a;
+	--warning-dark: #d97706;
+	--danger-dark: #dc2626;
+	--info-dark: #1d4ed8;
+
+	--border-color: #e5e5e5;
+	--border-color-light: #f0f0f0;
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+	--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+
+	--spacing-xs: 0.25rem;
+	--spacing-sm: 0.5rem;
+	--spacing-md: 1rem;
+	--spacing-lg: 1.5rem;
+	--spacing-xl: 2rem;
+	--spacing-2xl: 3rem;
+
+	--border-radius: 8px;
+	--border-radius-sm: 4px;
+	--border-radius-md: 8px;
+	--border-radius-lg: 12px;
+	--border-radius-full: 9999px;
+
+	--transition-fast: 0.2s ease;
+	--transition-base: 0.3s ease;
+	--transition-slow: 0.5s ease;
+
+	--screen-sm: 500px;
+	--screen-md: 767px;
+	--screen-lg: 1000px;
+	--screen-xl: 1400px;
+	--screen-2xl: 1600px;
+
+	--container-max-width: 1400px;
+	--z-dropdown: 1000;
+	--z-sticky: 100;
+	--z-fixed: 1000;
+	--z-modal-backdrop: 1040;
+	--z-modal: 1050;
+	--z-popover: 1070;
+	--z-tooltip: 1080;
+}
+
+/* ===== 다크 모드 ===== */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-primary: #1a1a1a;
+		--bg-secondary: #2d2d2d;
+		--bg-tertiary: #3a3a3a;
+
+		--text-primary: #e8e8e8;
+		--text-secondary: #a0a0a0;
+		--text-tertiary: #707070;
+		--text-inverse: #1a1a1a;
+
+		--border-color: #404040;
+		--border-color-light: #333333;
+
+		--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+		--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+		--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+		--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+	}
+}
+
+html[data-theme="dark"],
+html.dark {
+	color-scheme: dark;
+}
+
+html[data-theme="dark"] {
+	--bg-primary: #1a1a1a;
+	--bg-secondary: #2d2d2d;
+	--bg-tertiary: #3a3a3a;
+
+	--text-primary: #e8e8e8;
+	--text-secondary: #a0a0a0;
+	--text-tertiary: #707070;
+	--text-inverse: #1a1a1a;
+
+	--border-color: #404040;
+	--border-color-light: #333333;
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+	--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+}
+
+html.dark {
+	--bg-primary: #1a1a1a;
+	--bg-secondary: #2d2d2d;
+	--bg-tertiary: #3a3a3a;
+
+	--text-primary: #e8e8e8;
+	--text-secondary: #a0a0a0;
+	--text-tertiary: #707070;
+	--text-inverse: #1a1a1a;
+
+	--border-color: #404040;
+	--border-color-light: #333333;
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+	--shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+}

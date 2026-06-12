@@ -1,0 +1,64 @@
+.form-group {
+	margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+	display: block;
+	margin-bottom: var(--spacing-sm);
+	font-weight: var(--fw-semibold);
+	font-size: var(--fs-sm);
+	color: var(--text-primary);
+}
+.form-label.required::after {
+	content: " *";
+	color: var(--danger);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+	width: 100%;
+	padding: var(--spacing-sm) var(--spacing-md);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md);
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	font-size: var(--fs-sm);
+	font-family: var(--font-base);
+	transition:
+		border-color var(--transition-fast),
+		box-shadow var(--transition-fast);
+}
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+	outline: none;
+	border-color: var(--primary);
+	box-shadow: 0 0 0 3px rgba(31, 122, 99, 0.1);
+}
+.form-textarea {
+	resize: vertical;
+	min-height: 120px;
+}
+
+.form-input.error,
+.form-textarea.error,
+.form-select.error {
+	border-color: var(--danger);
+}
+.form-input.error:focus,
+.form-textarea.error:focus,
+.form-select.error:focus {
+	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-error {
+	color: var(--danger);
+	font-size: var(--fs-xs);
+	margin-top: var(--spacing-xs);
+}
+.form-hint {
+	color: var(--text-secondary);
+	font-size: var(--fs-xs);
+	margin-top: var(--spacing-xs);
+}

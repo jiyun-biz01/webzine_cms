@@ -1,0 +1,107 @@
+/* ============================================
+   utils.css
+   레이아웃, 텍스트, 스페이싱 유틸리티
+   ============================================ */
+
+/* ── Flex ── */
+.flex          { display: flex; }
+.flex-col      { display: flex; flex-direction: column; }
+.flex-center   { display: flex; align-items: center; justify-content: center; }
+.flex-between  { display: flex; align-items: center; justify-content: space-between; }
+.flex-end      { display: flex; align-items: center; justify-content: flex-end; }
+.items-center  { align-items: center; }
+.flex-wrap     { flex-wrap: wrap; }
+.flex-1        { flex: 1; }
+
+/* ── Gap ── */
+.gap-xs  { gap: var(--spacing-xs); }
+.gap-sm  { gap: var(--spacing-sm); }
+.gap-md  { gap: var(--spacing-md); }
+.gap-lg  { gap: var(--spacing-lg); }
+.gap-xl  { gap: var(--spacing-xl); }
+
+/* ── Grid ── */
+.grid   { display: grid; gap: var(--spacing-lg); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1000px) {
+	.grid-4 { grid-template-columns: repeat(2, 1fr); }
+	.grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+	.grid-2,
+	.grid-3,
+	.grid-4 { grid-template-columns: 1fr; }
+}
+
+/* ── 텍스트 정렬 ── */
+.text-left   { text-align: left; }
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+/* ── 텍스트 색상 ── */
+.text-primary   { color: var(--text-primary);   }
+.text-secondary { color: var(--text-secondary); }
+.text-muted     { color: var(--text-tertiary);  }
+.text-success   { color: var(--success);        }
+.text-warning   { color: var(--warning);        }
+.text-danger    { color: var(--danger);         }
+.text-info      { color: var(--info);           }
+.text-white     { color: var(--text-inverse);   }
+
+/* ── 폰트 굵기 ── */
+.fw-regular  { font-weight: var(--fw-regular);  }
+.fw-medium   { font-weight: var(--fw-medium);   }
+.fw-semibold { font-weight: var(--fw-semibold); }
+.fw-bold     { font-weight: var(--fw-bold);     }
+
+/* ── 폰트 패밀리 ── */
+.font-base  { font-family: var(--font-base);  }
+.font-title { font-family: var(--font-title); }
+
+/* ── Margin ── */
+.m-0  { margin: 0; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-5 { margin-top: var(--spacing-xl); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-5 { margin-bottom: var(--spacing-xl); }
+
+.ml-auto { margin-left: auto; }
+.mr-auto { margin-right: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+
+/* ── Padding ── */
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+.p-5 { padding: var(--spacing-xl); }
+
+/* ── 기타 ── */
+.w-full     { width: 100%; }
+.h-full     { height: 100%; }
+.min-w-0    { min-width: 0; }           /* flex 내부 overflow 방지 */
+.truncate   { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sr-only    { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); } /* 접근성 */
+.hidden     { display: none; }
+.block      { display: block; }
+.cursor-pointer { cursor: pointer; }
+
+/* ── 구분선 ── */
+.divider {
+	border: none;
+	border-top: 1px solid var(--border-color);
+	margin: var(--spacing-lg) 0;
+}

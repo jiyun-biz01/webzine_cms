@@ -1,0 +1,14 @@
+/* WebzineHistory 페이지 전용 스타일
+   공통 스타일(table, badge, btn, card)은 src/styles/theme/ 참고 */
+
+.body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+}
+
+.rowActions {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}

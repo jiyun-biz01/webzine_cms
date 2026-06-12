@@ -1,0 +1,49 @@
+/* ArticleList 페이지 전용 스타일
+   공통 스타일은 src/components/common/ 각 컴포넌트의 .module.css 참고 */
+
+.body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+}
+
+.statGrid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--spacing-md);
+}
+
+.articleTitle {
+	font-weight: var(--fw-semibold);
+	color: var(--text-primary);
+	max-width: 280px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.articleTitleLink {
+	cursor: pointer;
+}
+.articleTitleLink:hover {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+.rowActions {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}
+
+@media (max-width: 999px) {
+	.statGrid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 499px) {
+	.statGrid {
+		grid-template-columns: 1fr;
+	}
+}

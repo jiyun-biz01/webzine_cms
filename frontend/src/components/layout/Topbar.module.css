@@ -1,0 +1,78 @@
+.topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: var(--topbar-height);
+	padding: 0 var(--spacing-lg);
+	background-color: var(--bg-primary);
+	border-bottom: 1px solid var(--border-color);
+	position: sticky;
+	top: 0;
+	z-index: var(--z-sticky);
+}
+
+.greeting {
+	font-size: var(--fs-sm);
+	color: var(--text-secondary);
+}
+.greeting strong {
+	color: var(--text-primary);
+	font-weight: var(--fw-semibold);
+}
+
+.rightGroup {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}
+
+.iconBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--border-radius-md);
+	border: none;
+	background: none;
+	padding:0;
+	color: var(--text-secondary);
+	font-size: 1rem;
+	cursor: pointer;
+	position: relative;
+	transition: background-color var(--transition-fast);
+}
+.iconBtn:hover {
+	background-color: var(--bg-secondary);
+}
+
+.notiBadge {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	min-width: 16px;
+	height: 16px;
+	padding: 0 3px;
+	border-radius: var(--border-radius-full);
+	background-color: var(--danger);
+	color: var(--text-inverse);
+	font-size: 10px;
+	font-weight: var(--fw-bold);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--primary), var(--primary-light));
+	color: var(--text-inverse);
+	font-weight: var(--fw-bold);
+	font-size: var(--fs-xs);
+	cursor: pointer;
+}

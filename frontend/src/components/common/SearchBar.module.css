@@ -1,0 +1,12 @@
+.searchInput {
+	width: 220px;
+	height: 36px;
+	padding: 0 var(--spacing-md) !important;
+	font-size: var(--fs-xs) !important;
+}
+
+@media (max-width: 499px) {
+	.searchInput {
+		width: 100%;
+	}
+}

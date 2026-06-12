@@ -1,0 +1,42 @@
+:root {
+	--sidebar-width: 260px;
+	--sidebar-collapsed-width: 64px;
+	--topbar-height: 56px;
+}
+
+.appShell {
+	display: flex;
+	min-height: 100vh;
+	background-color: var(--bg-secondary);
+	color: var(--text-primary);
+}
+
+/* ── 우측 메인 영역 ── */
+.mainWrapper {
+	margin-left: var(--sidebar-width);
+	flex: 1;
+	min-width: 0; /* flex 내부 overflow 방지 */
+	display: flex;
+	flex-direction: column;
+	transition: margin-left var(--transition-base);
+}
+
+.mainWrapper.collapsed {
+	margin-left: var(--sidebar-collapsed-width);
+}
+
+/* ── 컨텐츠 영역 ── */
+.contentArea {
+	flex: 1;
+	padding: var(--spacing-lg);
+	overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+	.mainWrapper {
+		margin-left: 0;
+	}
+	.contentArea {
+		padding: var(--spacing-md);
+	}
+}

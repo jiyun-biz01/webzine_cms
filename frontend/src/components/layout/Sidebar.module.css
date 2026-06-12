@@ -1,0 +1,191 @@
+.sidebar {
+	width: var(--sidebar-width);
+	min-height: 100vh;
+	background-color: var(--bg-primary);
+	border-right: 1px solid var(--border-color);
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: var(--z-fixed);
+	transition: width var(--transition-base);
+	overflow: hidden;
+}
+
+.sidebar.collapsed {
+	width: var(--sidebar-collapsed-width);
+}
+
+/* ── 로고 ── */
+.logo {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	padding: 0 var(--spacing-md);
+	height: var(--topbar-height);
+	border-bottom: 1px solid var(--border-color);
+	flex-shrink: 0;
+}
+
+.logoMark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background-color: var(--primary);
+	color: var(--text-inverse);
+	border-radius: var(--border-radius-md);
+	font-family: var(--font-title);
+	font-weight: var(--fw-bold);
+	font-size: var(--fs-md);
+	flex-shrink: 0;
+}
+
+.logoText {
+	font-family: var(--font-title);
+	font-weight: var(--fw-bold);
+	font-size: var(--fs-sm);
+	color: var(--primary);
+	letter-spacing: 2px;
+	white-space: nowrap;
+}
+
+.collapseBtn {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	border-radius: var(--border-radius-sm);
+	border: 1px solid var(--border-color);
+	background: none;
+	color: var(--text-secondary);
+	font-size: 1rem;
+	cursor: pointer;
+	padding: 0;
+	flex-shrink: 0;
+	transition: all var(--transition-fast);
+}
+.collapseBtn:hover {
+	background-color: var(--bg-secondary);
+	color: var(--text-primary);
+}
+
+/* ── 유저 프로필 ── */
+.userProfile {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-md);
+	border-bottom: 1px solid var(--border-color);
+	flex-shrink: 0;
+}
+
+.userAvatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--primary), var(--primary-light));
+	color: var(--text-inverse);
+	font-weight: var(--fw-bold);
+	font-size: var(--fs-sm);
+	flex-shrink: 0;
+}
+
+.userAvatarCollapsed {
+	composes: userAvatar; /* userAvatar 스타일 상속 */
+	width: 34px;
+	height: 34px;
+	margin: var(--spacing-sm) auto;
+}
+
+.userInfo {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	overflow: hidden;
+}
+
+.userName {
+	font-size: var(--fs-sm);
+	font-weight: var(--fw-bold);
+	color: var(--text-primary);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.userRole {
+	font-size: var(--fs-xs);
+	color: var(--primary);
+	font-weight: var(--fw-semibold);
+}
+
+.userId {
+	font-size: var(--fs-xs);
+	color: var(--text-tertiary);
+}
+
+/* ── 네비게이션 ── */
+.nav {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: var(--spacing-sm) 0;
+
+	/* 스크롤바 */
+	scrollbar-width: thin;
+	scrollbar-color: var(--border-color) transparent;
+}
+.nav::-webkit-scrollbar {
+	width: 4px;
+}
+.nav::-webkit-scrollbar-thumb {
+	background-color: var(--border-color);
+	border-radius: 2px;
+}
+
+.menuList {
+	list-style: none;
+}
+
+/* 메뉴 아이템 스타일은 src/styles/theme/menu.css (글로벌) 참고 */
+
+/* ── 하단 영역 ── */
+.footer {
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-top: 1px solid var(--border-color);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	flex-shrink: 0;
+}
+
+.lastLogin {
+	font-size: var(--fs-xs);
+	color: var(--text-tertiary);
+}
+
+.logoutBtn {
+	width: 100%;
+	padding: var(--spacing-sm);
+	border-radius: var(--border-radius-sm);
+	border: 1px solid var(--border-color);
+	background: none;
+	color: var(--text-secondary);
+	font-size: var(--fs-xs);
+	font-family: var(--font-base);
+	cursor: pointer;
+	transition: all var(--transition-fast);
+}
+.logoutBtn:hover {
+	border-color: var(--danger);
+	color: var(--danger);
+}
