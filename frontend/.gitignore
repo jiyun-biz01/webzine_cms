@@ -48,3 +48,6 @@ Thumbs.db
 *.local
 coverage/
 .eslintcache
+
+*storybook.log
+storybook-static

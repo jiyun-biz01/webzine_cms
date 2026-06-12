@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./lib/swagger.js";
 import authRoutes from "./routes/authRoutes.js";
 import articleRoutes from "./routes/articleRoutes.js";
 import mainPageRoutes from "./routes/mainPageRoutes.js";
@@ -44,6 +46,9 @@ app.use("/templates", templateRoutes);
 app.use("/upload",    uploadRoutes);
 app.use("/dashboard",   dashboardRoutes);
 app.use("/subscribers", subscriberRoutes);
+
+// ── API 문서 ──────────────────────────────────
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ── 헬스체크 ──────────────────────────────────
 // 서버가 살아있는지 확인하는 간단한 엔드포인트
