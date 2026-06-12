@@ -26,26 +26,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 // ── 미들웨어 ──────────────────────────────────
-// CORS: 허용 도메인 목록
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:4173",
-  "https://webzine-cms.vercel.app",
-  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS blocked: ${origin}`));
-      }
-    },
-    credentials: true,
-  }),
-);
+app.use(cors({ origin: true, credentials: true }));
 
 // 요청 바디를 JSON으로 파싱 (req.body 사용 가능하게)
 app.use(express.json());
