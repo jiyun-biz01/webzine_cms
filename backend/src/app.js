@@ -26,13 +26,23 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
 // ── 미들웨어 ──────────────────────────────────
-// CORS: 프론트엔드(localhost:5173)의 요청을 허용
+// CORS: 허용 도메인 목록
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://webzine-cms.vercel.app",
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", // Vite 개발 서버
-      "http://localhost:4173", // Vite preview
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked: ${origin}`));
+      }
+    },
     credentials: true,
   }),
 );
