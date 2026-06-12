@@ -167,11 +167,15 @@ function ArticleList() {
 													{article.category}
 												</span>
 											</td>
-											<td>{article.author}</td>
+											<td>{article.author?.name ?? "-"}</td>
 											<td>
 												<StatusBadge status={article.status} />
 											</td>
-											<td className="text-muted">{article.date}</td>
+											<td className="text-muted">
+												{article.publishedAt
+													? new Date(article.publishedAt).toLocaleDateString("ko-KR")
+													: new Date(article.createdAt).toLocaleDateString("ko-KR")}
+											</td>
 											<td>
 												{article.status !== "published" && (
 													<div className={styles.rowActions}>

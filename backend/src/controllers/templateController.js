@@ -1,5 +1,17 @@
 import { supabase } from "../lib/supabase.js";
 
+function toClient(t) {
+  return {
+    id:          t.id,
+    name:        t.name,
+    description: t.description,
+    layoutType:  t.layout_type,
+    imageSlots:  t.image_slots,
+    slotLabels:  t.slot_labels,
+    createdAt:   t.created_at,
+  };
+}
+
 // GET /templates
 export async function getTemplates(_req, res) {
   const { data, error } = await supabase
@@ -8,7 +20,7 @@ export async function getTemplates(_req, res) {
     .order("id");
 
   if (error) return res.status(500).json({ message: error.message });
-  return res.json(data);
+  return res.json(data.map(toClient));
 }
 
 // GET /templates/:id
@@ -23,7 +35,7 @@ export async function getTemplate(req, res) {
     return res.status(404).json({ message: "템플릿을 찾을 수 없습니다." });
   }
 
-  return res.json(template);
+  return res.json(toClient(template));
 }
 
 // POST /templates

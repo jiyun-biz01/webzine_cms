@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ContentHeader from "@/components/layout/ContentHeader";
+import TipTapEditor from "@/components/common/TipTapEditor";
 import * as articleService from "@/services/articleService";
 import * as templateService from "@/services/templateService";
 import styles from "./ArticleWrite.module.css";
@@ -43,7 +44,7 @@ function ArticleWrite() {
   const [title,    setTitle]    = useState("");
   const [content,  setContent]  = useState("");
   const [category, setCategory] = useState(CATEGORIES[0]);
-  const [status,   setStatus]   = useState("draft");
+
 
   // 템플릿 상태
   const [templates,           setTemplates]           = useState([]);
@@ -71,7 +72,7 @@ function ArticleWrite() {
           setTitle(article.title ?? "");
           setContent(article.content ?? "");
           setCategory(article.category ?? CATEGORIES[0]);
-          setStatus(article.status ?? "draft");
+
 
           if (article.templateId) {
             setSelectedTemplateId(article.templateId);
@@ -250,13 +251,12 @@ function ArticleWrite() {
         />
 
         <div className={styles.columns}>
-          {/* ── 왼쪽: 본문 textarea ──────────────── */}
+          {/* ── 왼쪽: 본문 에디터 ──────────────── */}
           <div className={styles.editorArea}>
-            <textarea
-              className={styles.contentTextarea}
-              placeholder="기사 본문을 입력하세요"
+            <TipTapEditor
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={setContent}
+              placeholder="기사 본문을 입력하세요"
             />
           </div>
 
@@ -355,27 +355,7 @@ function ArticleWrite() {
               </div>
             </div>
 
-            {/* 발행 설정 */}
-            <div className="card">
-              <div className={`card-header ${styles.cardHeaderSm}`}>
-                <h4>발행 설정</h4>
-              </div>
-              <div className="card-body">
-                <div className="form-group">
-                  <label className="form-label">상태</label>
-                  <select
-                    className="form-select"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="draft">임시저장</option>
-                    <option value="published">발행</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* 에러 메시지 */}
+{/* 에러 메시지 */}
             {error && <p className={styles.errorMsg}>{error}</p>}
 
             {/* 액션 버튼 */}
@@ -403,7 +383,7 @@ function ArticleWrite() {
               </button>
               <button
                 className="btn btn-primary"
-                onClick={() => handleSave(status)}
+                onClick={() => handleSave("published")}
                 disabled={submitting}
               >
                 {submitting ? "저장 중..." : "발행하기"}

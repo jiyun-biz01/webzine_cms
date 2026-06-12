@@ -50,7 +50,7 @@ export function logout(_req, res) {
 export async function getMe(req, res) {
   const { data: user, error } = await supabase
     .from("users")
-    .select("id, email, name, role, last_login_at, created_at")
+    .select("id, email, name, role, username, last_login_at, created_at")
     .eq("id", req.user.id)
     .single();
 

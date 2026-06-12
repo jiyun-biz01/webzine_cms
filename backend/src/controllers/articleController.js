@@ -1,5 +1,28 @@
 import { supabase } from "../lib/supabase.js";
 
+function toClient(a) {
+  return {
+    id:          a.id,
+    title:       a.title,
+    category:    a.category,
+    status:      a.status,
+    content:     a.content,
+    templateId:  a.template_id,
+    authorId:    a.author_id,
+    author:      a.author ?? null,
+    images:      (a.images ?? []).map((img) => ({
+      id:        img.id,
+      articleId: img.article_id,
+      slot:      img.slot,
+      url:       img.url,
+      name:      img.name,
+    })),
+    publishedAt: a.published_at,
+    createdAt:   a.created_at,
+    updatedAt:   a.updated_at,
+  };
+}
+
 // GET /articles
 // Query: page, limit, search, status
 export async function getArticles(req, res) {
@@ -34,7 +57,7 @@ export async function getArticles(req, res) {
     { label: "보관함",    value: String(all.filter((a) => a.status === "archived").length),   delta: "", color: "info"    },
   ];
 
-  return res.json({ data, total: count, page, limit, stats });
+  return res.json({ data: data.map(toClient), total: count, page, limit, stats });
 }
 
 // GET /articles/:id
@@ -49,7 +72,7 @@ export async function getArticle(req, res) {
     return res.status(404).json({ message: "기사를 찾을 수 없습니다." });
   }
 
-  return res.json(article);
+  return res.json(toClient(article));
 }
 
 // POST /articles
@@ -87,7 +110,7 @@ export async function createArticle(req, res) {
     await supabase.from("article_images").insert(imageRows);
   }
 
-  return res.status(201).json(article);
+  return res.status(201).json(toClient(article));
 }
 
 // PUT /articles/:id
@@ -129,7 +152,7 @@ export async function updateArticle(req, res) {
     }
   }
 
-  return res.json(article);
+  return res.json(toClient(article));
 }
 
 // DELETE /articles/:id

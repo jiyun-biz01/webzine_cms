@@ -52,8 +52,10 @@ function MainPageConfig() {
           id:       article.id,
           title:    article.title,
           category: article.category,
-          author:   article.author,
-          date:     article.date,
+          author:   article.author?.name ?? article.author ?? "",
+          date:     article.publishedAt
+            ? new Date(article.publishedAt).toLocaleDateString("ko-KR")
+            : new Date(article.createdAt).toLocaleDateString("ko-KR"),
         };
         return { ...section, articles: next };
       }),

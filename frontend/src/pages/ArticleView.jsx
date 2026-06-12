@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ContentHeader from "@/components/layout/ContentHeader";
 import StatusBadge from "@/components/common/StatusBadge";
@@ -7,20 +8,45 @@ import useFetch from "@/hooks/useFetch";
 import * as articleService from "@/services/articleService";
 import styles from "./ArticleView.module.css";
 
-// ============================================
-// ArticleView - 기사 상세 조회 페이지
-//
-// /articles/:id → 기사 내용 읽기 전용 뷰
-// ============================================
-
 function ArticleView() {
 	const { id } = useParams();
 	const navigate = useNavigate();
+	const [archiving, setArchiving] = useState(false);
 
-	const { data: article, loading, error } = useFetch(
+	const { data: article, loading, error, refetch } = useFetch(
 		() => articleService.getArticle(id),
 		[id],
 	);
+
+	const handleArchive = async () => {
+		if (!window.confirm("이 기사를 보관함으로 이동하시겠습니까?")) return;
+		setArchiving(true);
+		try {
+			await articleService.updateArticle(id, { status: "archived" });
+			refetch();
+		} catch {
+			alert("보관 처리에 실패했습니다.");
+		} finally {
+			setArchiving(false);
+		}
+	};
+
+	const handleUnarchive = async () => {
+		if (!window.confirm("이 기사를 임시저장으로 되돌리시겠습니까?")) return;
+		setArchiving(true);
+		try {
+			await articleService.updateArticle(id, { status: "draft" });
+			refetch();
+		} catch {
+			alert("처리에 실패했습니다.");
+		} finally {
+			setArchiving(false);
+		}
+	};
+
+	const archiveAction = article?.status === "archived"
+		? { label: "보관 해제", variant: "btn-secondary", onClick: handleUnarchive }
+		: { label: archiving ? "처리 중..." : "보관함으로", variant: "btn-warning", onClick: handleArchive };
 
 	return (
 		<>
@@ -34,6 +60,7 @@ function ArticleView() {
 						variant: "btn-secondary",
 						onClick: () => navigate(`/articles/edit/${id}`),
 					},
+					...(article ? [archiveAction] : []),
 					{
 						label: "목록으로",
 						variant: "btn-secondary",
@@ -55,8 +82,12 @@ function ArticleView() {
 						<div className={styles.meta}>
 							<span className="badge badge-info">{article.category}</span>
 							<StatusBadge status={article.status} />
-							<span className={styles.metaText}>{article.author}</span>
-							<span className={styles.metaText}>{article.date}</span>
+							<span className={styles.metaText}>{article.author?.name ?? "-"}</span>
+							<span className={styles.metaText}>
+								{article.publishedAt
+									? new Date(article.publishedAt).toLocaleDateString("ko-KR")
+									: new Date(article.createdAt).toLocaleDateString("ko-KR")}
+							</span>
 						</div>
 
 						{/* 제목 */}
@@ -65,9 +96,10 @@ function ArticleView() {
 						<hr className={styles.divider} />
 
 						{/* 본문 */}
-						<div className={styles.content}>
-							{article.content}
-						</div>
+						<div
+							className={styles.content}
+							dangerouslySetInnerHTML={{ __html: article.content }}
+						/>
 					</div>
 				)}
 			</div>

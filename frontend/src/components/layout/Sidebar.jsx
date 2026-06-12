@@ -57,7 +57,9 @@ function Sidebar({ isCollapsed, onToggle }) {
 			{!isCollapsed && user && (
 				<div className={styles.footer}>
 					<span className={styles.lastLogin}>
-						최근 접속 {user.lastLogin}
+						최근 접속 {user.last_login_at
+							? new Date(user.last_login_at).toLocaleDateString("ko-KR")
+							: "없음"}
 					</span>
 					<button className={styles.logoutBtn} onClick={logout}>
 						로그아웃

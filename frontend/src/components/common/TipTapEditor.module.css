@@ -1,0 +1,168 @@
+.wrapper {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  overflow-x: auto;
+}
+
+.toolGroup {
+  display: flex;
+  gap: 2px;
+  padding-right: var(--spacing-sm);
+  border-right: 1px solid var(--border-color);
+}
+
+.toolGroup:last-child {
+  border-right: none;
+}
+
+.toolBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.toolBtn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.toolBtn.active {
+  background: var(--primary-lighter);
+  color: var(--primary);
+}
+
+.toolBtn .material-icons {
+  font-size: 18px;
+}
+
+.fontSizeSelect {
+  height: 32px;
+  padding: 0 var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+
+.editorContent {
+  flex: 1;
+  padding: var(--spacing-lg);
+  background: var(--bg-primary);
+  overflow-y: auto;
+}
+
+/* TipTap 에디터 내부 스타일 */
+.editorContent :global(.ProseMirror) {
+  outline: none;
+  min-height: 360px;
+  font-size: var(--fs-sm);
+  line-height: var(--leading-loose);
+  color: var(--text-primary);
+}
+
+.editorContent :global(.ProseMirror p) {
+  margin: 0 0 var(--spacing-sm);
+}
+
+.editorContent :global(.ProseMirror h2) {
+  font-family: var(--font-title);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  margin: var(--spacing-lg) 0 var(--spacing-sm);
+}
+
+.editorContent :global(.ProseMirror h3) {
+  font-family: var(--font-title);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  margin: var(--spacing-md) 0 var(--spacing-sm);
+}
+
+.editorContent :global(.ProseMirror ul),
+.editorContent :global(.ProseMirror ol) {
+  padding-left: var(--spacing-xl);
+  margin: var(--spacing-sm) 0;
+}
+
+.editorContent :global(.ProseMirror blockquote) {
+  border-left: 3px solid var(--primary);
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-sm) var(--spacing-md);
+  color: var(--text-secondary);
+  background: var(--primary-lighter);
+  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+}
+
+.editorContent :global(.ProseMirror pre) {
+  background: var(--bg-tertiary);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  font-size: var(--fs-xs);
+  overflow-x: auto;
+}
+
+.editorContent :global(.ProseMirror img) {
+  max-width: 100%;
+  border-radius: var(--border-radius);
+}
+
+.editorContent :global(.ProseMirror hr) {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: var(--spacing-lg) 0;
+}
+
+.sourceTextarea {
+  flex: 1;
+  min-height: 360px;
+  padding: var(--spacing-lg);
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: monospace;
+  font-size: var(--fs-xs);
+  line-height: 1.6;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.editorContent :global(.ProseMirror code) {
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9em;
+  font-family: monospace;
+  color: var(--danger);
+}
+
+.editorContent :global(.ProseMirror p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: var(--text-tertiary);
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
