@@ -5,8 +5,13 @@ import api from "@/api/axios";
 // ============================================
 
 // 발송 이력 목록 조회
-// 응답 예시: { data: [...], total: 6 }
 export async function getHistory() {
 	const response = await api.get("/webzine/history");
+	return response.data;
+}
+
+// 웹진 발송
+export async function sendWebzine(data) {
+	const response = await api.post("/webzine/send", data);
 	return response.data;
 }

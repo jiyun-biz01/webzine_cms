@@ -49,13 +49,14 @@ function MainPageConfig() {
         const next = [...section.articles];
         // slotIndex 위치에 기사 삽입 (빈 슬롯 채우기)
         next[picker.slotIndex] = {
-          id:       article.id,
-          title:    article.title,
-          category: article.category,
-          author:   article.author?.name ?? article.author ?? "",
-          date:     article.publishedAt
+          id:        article.id,
+          title:     article.title,
+          category:  article.category,
+          author:    article.author?.name ?? article.author ?? "",
+          date:      article.publishedAt
             ? new Date(article.publishedAt).toLocaleDateString("ko-KR")
             : new Date(article.createdAt).toLocaleDateString("ko-KR"),
+          thumbnail: article.images?.find((img) => img.slot === 1)?.url ?? null,
         };
         return { ...section, articles: next };
       }),

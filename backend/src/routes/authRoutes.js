@@ -18,8 +18,9 @@ import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = Router();
 
-router.post("/login",  authController.login);
-router.post("/logout", authController.logout);
-router.get("/me",      authMiddleware, authController.getMe); // authMiddleware: 로그인 필요
+router.post("/login",    authController.login);
+router.post("/logout",   authController.logout);
+router.get("/me",        authMiddleware, authController.getMe);
+router.put("/password",  authMiddleware, authController.changePassword); // authMiddleware: 로그인 필요
 
 export default router;

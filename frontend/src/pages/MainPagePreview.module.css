@@ -111,6 +111,13 @@
 	background: linear-gradient(to right, var(--primary), var(--primary-light));
 }
 
+.cardThumb {
+	width: 100%;
+	height: 120px;
+	object-fit: cover;
+	display: block;
+}
+
 .cardBody {
 	padding: var(--spacing-md);
 	display: flex;

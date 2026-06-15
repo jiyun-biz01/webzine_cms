@@ -46,6 +46,38 @@ export function logout(_req, res) {
   return res.json({ message: "로그아웃 되었습니다." });
 }
 
+// PUT /auth/password
+export async function changePassword(req, res) {
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ message: "현재 비밀번호와 새 비밀번호를 입력해주세요." });
+  }
+  if (newPassword.length < 6) {
+    return res.status(400).json({ message: "새 비밀번호는 6자 이상이어야 합니다." });
+  }
+
+  const { data: user, error } = await supabase
+    .from("users")
+    .select("password_hash")
+    .eq("id", req.user.id)
+    .single();
+
+  if (error || !user) return res.status(404).json({ message: "유저를 찾을 수 없습니다." });
+
+  const valid = await bcrypt.compare(currentPassword, user.password_hash);
+  if (!valid) return res.status(401).json({ message: "현재 비밀번호가 올바르지 않습니다." });
+
+  const password_hash = await bcrypt.hash(newPassword, 10);
+  const { error: updateError } = await supabase
+    .from("users")
+    .update({ password_hash })
+    .eq("id", req.user.id);
+
+  if (updateError) return res.status(500).json({ message: updateError.message });
+  return res.json({ message: "비밀번호가 변경되었습니다." });
+}
+
 // GET /auth/me
 export async function getMe(req, res) {
   const { data: user, error } = await supabase

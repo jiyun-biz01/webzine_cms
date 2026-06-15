@@ -1,0 +1,67 @@
+.body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
+}
+
+.infoGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--spacing-lg);
+	margin-bottom: var(--spacing-lg);
+}
+
+.infoItem {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-xs);
+}
+
+.infoLabel {
+	font-size: var(--fs-xs);
+	color: var(--text-secondary);
+	font-weight: var(--fw-medium);
+}
+
+.infoValue {
+	font-size: var(--fs-xl);
+	font-weight: var(--fw-bold);
+	color: var(--text-primary);
+}
+
+.monthInput {
+	width: fit-content;
+}
+
+.sectionSummary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
+	padding: var(--spacing-md);
+	background: var(--bg-secondary);
+	border-radius: var(--border-radius);
+}
+
+.sectionItem {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: var(--fs-sm);
+}
+
+.sectionName {
+	color: var(--text-primary);
+	font-weight: var(--fw-medium);
+}
+
+.error {
+	color: var(--danger);
+	font-size: var(--fs-xs);
+	padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.warn {
+	color: var(--warning);
+	font-size: var(--fs-xs);
+	padding: var(--spacing-sm) var(--spacing-md);
+}

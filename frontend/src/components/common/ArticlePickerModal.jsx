@@ -32,7 +32,7 @@ function ArticlePickerModal({ isOpen, onClose, onSelect, excludeIds = [] }) {
   const filtered = articles.filter(
     (a) =>
       !excludeIds.includes(a.id) &&
-      (a.title.includes(search) || a.author.includes(search)),
+      (a.title.includes(search) || (a.author?.name ?? "").includes(search)),
   );
 
   const handleSelect = (article) => {
@@ -78,7 +78,7 @@ function ArticlePickerModal({ isOpen, onClose, onSelect, excludeIds = [] }) {
                   <span className={styles.itemDate}>{article.date}</span>
                 </div>
                 <p className={styles.itemTitle}>{article.title}</p>
-                <span className={styles.itemAuthor}>{article.author}</span>
+                <span className={styles.itemAuthor}>{article.author?.name ?? "-"}</span>
               </button>
             </li>
           ))}

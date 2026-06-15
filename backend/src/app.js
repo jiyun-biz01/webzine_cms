@@ -14,6 +14,7 @@ import dashboardRoutes from "./routes/dashboardRoutes.js";
 import subscriberRoutes from "./routes/subscriberRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -50,6 +51,7 @@ app.use("/dashboard",   dashboardRoutes);
 app.use("/subscribers", subscriberRoutes);
 app.use("/categories",    categoryRoutes);
 app.use("/notifications", notificationRoutes);
+app.use("/settings",      settingsRoutes);
 
 // ── API 문서 ──────────────────────────────────
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

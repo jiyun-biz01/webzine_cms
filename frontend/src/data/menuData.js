@@ -29,7 +29,15 @@ const menuData = [
 		label: "메인 페이지 구성",
 		children: [
 			{ id: "main-page-current", label: "현재 구성", path: "/main-page" },
-			{ id: "main-page-history", label: "발송 이력", path: "/main-page/history" },
+		],
+	},
+	{
+		id: "webzine",
+		icon: "✉️",
+		label: "웹진 발송",
+		children: [
+			{ id: "webzine-send",    label: "발송하기",  path: "/webzine/send" },
+			{ id: "webzine-history", label: "발송 이력", path: "/main-page/history" },
 		],
 	},
 	{
@@ -46,6 +54,14 @@ const menuData = [
 		label: "카테고리 관리",
 		children: [
 			{ id: "category-list", label: "카테고리 목록", path: "/categories" },
+		],
+	},
+	{
+		id: "settings",
+		icon: "⚙️",
+		label: "설정",
+		children: [
+			{ id: "settings-main", label: "설정", path: "/settings" },
 		],
 	},
 	{

@@ -10,16 +10,20 @@ import styles from "./MainPagePreview.module.css";
 //   sections - MainPageConfig의 sections 상태
 // ============================================
 
-function MainPagePreview({ sections }) {
+function MainPagePreview({ sections, clickable = false }) {
 	if (!sections) return null;
 
 	const headline    = sections.find((s) => s.id === "headline");
 	const featured    = sections.find((s) => s.id === "featured");
 	const recommended = sections.find((s) => s.id === "recommended");
 
-	const headlineArticle    = headline?.articles[0]     ?? null;
-	const featuredArticles   = featured?.articles        ?? [];
-	const recommendedArticles = recommended?.articles    ?? [];
+	const headlineArticle     = headline?.articles[0]  ?? null;
+	const featuredArticles    = featured?.articles     ?? [];
+	const recommendedArticles = recommended?.articles  ?? [];
+
+	const openArticle = (id) => {
+		if (clickable && id) window.open(`/articles/preview/${id}`, "_blank");
+	};
 
 	return (
 		<div className={styles.preview}>
@@ -38,7 +42,18 @@ function MainPagePreview({ sections }) {
 			<section className={styles.section}>
 				<h2 className={styles.sectionLabel}>헤드라인</h2>
 				{headlineArticle ? (
-					<div className={styles.heroCard}>
+					<div
+						className={styles.heroCard}
+						onClick={() => openArticle(headlineArticle.id)}
+						style={{
+							...(clickable ? { cursor: "pointer" } : {}),
+							...(headlineArticle.thumbnail ? {
+								backgroundImage: `url(${headlineArticle.thumbnail})`,
+								backgroundSize: "cover",
+								backgroundPosition: "center",
+							} : {}),
+						}}
+					>
 						<div className={styles.heroInner}>
 							<span className={`badge badge-primary ${styles.heroBadge}`}>
 								{headlineArticle.category}
@@ -61,8 +76,16 @@ function MainPagePreview({ sections }) {
 					{Array.from({ length: featured?.maxSlots ?? 3 }).map((_, i) => {
 						const article = featuredArticles[i];
 						return article ? (
-							<div key={i} className={styles.featuredCard}>
-								<div className={styles.cardColorBar} />
+							<div
+								key={i}
+								className={styles.featuredCard}
+								onClick={() => openArticle(article.id)}
+								style={clickable ? { cursor: "pointer" } : {}}
+							>
+								{article.thumbnail
+									? <img src={article.thumbnail} alt={article.title} className={styles.cardThumb} />
+									: <div className={styles.cardColorBar} />
+								}
 								<div className={styles.cardBody}>
 									<span className="badge badge-info">{article.category}</span>
 									<h4 className={styles.cardTitle}>{article.title}</h4>
@@ -85,7 +108,12 @@ function MainPagePreview({ sections }) {
 					{Array.from({ length: recommended?.maxSlots ?? 6 }).map((_, i) => {
 						const article = recommendedArticles[i];
 						return article ? (
-							<div key={i} className={styles.recommendedCard}>
+							<div
+								key={i}
+								className={styles.recommendedCard}
+								onClick={() => openArticle(article.id)}
+								style={clickable ? { cursor: "pointer" } : {}}
+							>
 								<span className="badge badge-info">{article.category}</span>
 								<h4 className={styles.recommendedTitle}>{article.title}</h4>
 								<p className={styles.cardMeta}>

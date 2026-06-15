@@ -17,6 +17,9 @@ import SubscribePage from "@/pages/SubscribePage";
 import ArticlePreview from "@/pages/ArticlePreview";
 import NotFound from "@/pages/NotFound";
 import CategoryList from "@/pages/CategoryList";
+import Settings from "@/pages/Settings";
+import WebzineSend from "@/pages/WebzineSend";
+import WebzinePreviewPage from "@/pages/WebzinePreviewPage";
 
 // ============================================
 // ProtectedLayout - 로그인이 필요한 페이지들의 공통 래퍼
@@ -66,6 +69,7 @@ function App() {
 
           {/* 미리보기 - 사이드바 없이 새 창에서 열림 */}
           <Route path="/articles/preview/:id" element={<ArticlePreview />} />
+          <Route path="/webzine/preview"       element={<WebzinePreviewPage />} />
 
           {/* 공개 구독 페이지 - 로그인 불필요, AppLayout 없음 */}
           <Route path="/subscribe" element={<SubscribePage />} />
@@ -85,8 +89,9 @@ function App() {
             <Route path="/articles/edit/:id"  element={<ArticleWrite />} />
             <Route path="/articles/:id"       element={<ArticleView />} />
 
-            <Route path="/main-page" element={<MainPageConfig />} />
+            <Route path="/main-page"         element={<MainPageConfig />} />
             <Route path="/main-page/history" element={<WebzineHistory />} />
+            <Route path="/webzine/send"      element={<WebzineSend />} />
 
             {/* 디자인 템플릿 */}
             <Route path="/templates" element={<TemplateList />} />
@@ -98,6 +103,9 @@ function App() {
 
             {/* 카테고리 관리 */}
             <Route path="/categories" element={<CategoryList />} />
+
+            {/* 설정 */}
+            <Route path="/settings" element={<Settings />} />
 
             {/* 추후 추가 예정 */}
             {/* <Route path="/media"       element={<MediaLibrary />} /> */}

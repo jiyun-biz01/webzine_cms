@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as webzineController from "../controllers/webzineController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 // ============================================
 // webzineRoutes - 웹진 발송 이력 라우터
@@ -10,6 +11,7 @@ import * as webzineController from "../controllers/webzineController.js";
 
 const router = Router();
 
+router.post("/send",        authMiddleware, webzineController.sendWebzine);
 router.get("/history",     webzineController.getHistory);
 router.get("/history/:id", webzineController.getHistoryItem);
 

@@ -1,149 +1,150 @@
 /* Dashboard 페이지 전용 스타일 */
 
 .body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-lg);
 }
 
 /* ── 통계 카드 그리드 ──────────────────────── */
 .statGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-md);
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--spacing-md);
 }
 
 /* ── 메인 콘텐츠 (기사 목록 + 사이드 패널) ── */
 /* statGrid와 동일한 gap + 3:1 비율로 컬럼 정렬 */
 .mainGrid {
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: var(--spacing-md);
-  align-items: stretch;
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	gap: var(--spacing-md);
+	align-items: stretch;
 }
 
 /* ── 왼쪽 패널 (최근 기사) ──────────────────── */
 /* grid 셀 높이를 꽉 채우도록 flex 컨테이너로 감쌈 */
 .leftPanel {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .leftPanel :global(.card) {
-  flex: 1;
+	flex: 1;
 }
 
 /* ── 사이드 패널 (호 현황 + 바로가기) ──────── */
 /* grid 셀 높이를 꽉 채우고, 내부 카드도 flex로 분배 */
 .sidePanel {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
+	height: 100%;
 }
 
 /* 호 구성 현황 카드: 남은 공간을 모두 차지 */
 .issueCard {
-  flex: 1;
+	flex: 1;
 }
 
 /* ── 최근 기사 제목 (클릭 가능) ─────────────── */
 .articleTitle {
-  font-weight: var(--fw-semibold);
-  max-width: 240px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
+	font-weight: var(--fw-semibold);
+	text-align: left;
+	max-width: 240px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
 }
 .articleTitle:hover {
-  color: var(--primary);
-  text-decoration: underline;
+	color: var(--primary);
+	text-decoration: underline;
 }
 
 /* ── 호 구성 현황 섹션 목록 ───────────────── */
 .sectionList {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-md);
 }
 
 .sectionItem {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
 .sectionTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .sectionLabel {
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  color: var(--text-primary);
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-semibold);
+	color: var(--text-primary);
 }
 
 .sectionCount {
-  font-size: var(--fs-xs);
-  color: var(--text-secondary);
+	font-size: var(--fs-xs);
+	color: var(--text-secondary);
 }
 .sectionCount.full {
-  color: var(--success);
-  font-weight: var(--fw-bold);
+	color: var(--success);
+	font-weight: var(--fw-bold);
 }
 
 /* ── 진행 바 ─────────────────────────────── */
 .progressBar {
-  height: 6px;
-  background-color: var(--bg-tertiary);
-  border-radius: var(--border-radius-full);
-  overflow: hidden;
+	height: 6px;
+	background-color: var(--bg-tertiary);
+	border-radius: var(--border-radius-full);
+	overflow: hidden;
 }
 
 .progressFill {
-  height: 100%;
-  background-color: var(--primary);
-  border-radius: var(--border-radius-full);
-  transition: width var(--transition-base);
+	height: 100%;
+	background-color: var(--primary);
+	border-radius: var(--border-radius-full);
+	transition: width var(--transition-base);
 }
 
 .progressFill.progressFull {
-  background-color: var(--success);
+	background-color: var(--success);
 }
 
 /* ── 빠른 바로가기 버튼 그룹 ─────────────── */
 .shortcuts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-sm);
 }
 .shortcuts .btn {
-  width: 100%;
-  justify-content: center;
+	width: 100%;
+	justify-content: center;
 }
 
 /* ── 반응형 ──────────────────────────────── */
 @media (max-width: 999px) {
-  .statGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+	.statGrid {
+		grid-template-columns: repeat(2, 1fr);
+	}
 
-  .mainGrid {
-    grid-template-columns: 1fr;
-  }
+	.mainGrid {
+		grid-template-columns: 1fr;
+	}
 
-  .leftPanel,
-  .sidePanel {
-    height: auto;
-  }
+	.leftPanel,
+	.sidePanel {
+		height: auto;
+	}
 }
 
 @media (max-width: 499px) {
-  .statGrid {
-    grid-template-columns: 1fr;
-  }
+	.statGrid {
+		grid-template-columns: 1fr;
+	}
 }

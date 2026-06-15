@@ -227,8 +227,8 @@ function ArticleWrite() {
         const created = await articleService.createArticle(payload);
         articleId = created.id;
       }
-      // 새 탭으로 미리보기 열기
-      window.open(`/articles/preview/${articleId}`, "_blank");
+      // 기사 뷰 페이지로 이동
+      navigate(`/articles/${articleId}`);
     } catch {
       setError("미리보기 준비에 실패했습니다.");
     } finally {

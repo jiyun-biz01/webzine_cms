@@ -18,240 +18,298 @@
 
 /* ── 공통 스타일 ─────────────────────────────── */
 .article {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-lg);
-  font-family: var(--font-base);
-  color: var(--text-primary);
+	max-width: 860px;
+	margin: 0 auto;
+	padding: var(--spacing-xl) var(--spacing-lg);
+	font-family: var(--font-base);
+	color: var(--text-primary);
 }
 
 .category {
-  display: inline-block;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  color: var(--primary);
-  background: var(--primary-lighter);
-  padding: 3px 10px;
-  border-radius: var(--border-radius-full);
-  margin-bottom: var(--spacing-sm);
+	justify-self: flex-start;
+	display: inline-block;
+	font-size: var(--fs-xs);
+	font-weight: var(--fw-semibold);
+	color: var(--primary);
+	background: var(--primary-lighter);
+	padding: 3px 10px;
+	border-radius: var(--border-radius-full);
+	margin-bottom: var(--spacing-sm);
 }
 
 .title {
-  font-family: var(--font-title);
-  font-size: var(--fs-2xl);
-  font-weight: var(--fw-bold);
-  line-height: var(--leading-tight);
-  color: var(--text-primary);
-  margin-bottom: var(--spacing-lg);
+	font-family: var(--font-title);
+	font-size: var(--fs-2xl);
+	font-weight: var(--fw-bold);
+	line-height: var(--leading-tight);
+	color: var(--text-primary);
+	margin-bottom: var(--spacing-lg);
 }
 
 .content {
-  font-size: var(--fs-sm);
-  line-height: var(--leading-loose);
-  color: var(--text-primary);
+	font-size: var(--fs-sm);
+	line-height: var(--leading-loose);
+	color: var(--text-primary);
 }
 
 .content p {
-  margin-bottom: var(--spacing-md);
+	margin-bottom: var(--spacing-md);
 }
 
 /* ── 이미지 슬롯 공통 ────────────────────────── */
 .imageSlot {
-  overflow: hidden;
-  border-radius: var(--border-radius-md);
-  background: var(--bg-tertiary);
+	overflow: hidden;
+	border-radius: var(--border-radius-md);
+	background: var(--bg-tertiary);
 }
 
 .imageSlot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
 }
 
 .imagePlaceholder {
-  width: 100%;
-  height: 100%;
-  min-height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-tertiary);
-  font-size: var(--fs-xs);
-  border: 2px dashed var(--border-color);
-  border-radius: var(--border-radius-md);
+	width: 100%;
+	height: 100%;
+	min-height: 180px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-tertiary);
+	font-size: var(--fs-xs);
+	border: 2px dashed var(--border-color);
+	border-radius: var(--border-radius-md);
 }
-
 
 /* ============================================
    1. 기본형 (basic)
    이미지 없이 카테고리 → 제목 → 본문
    ============================================ */
 .layout_basic {
-  display: grid;
-  grid-template-areas:
-    "category"
-    "title"
-    "content";
-  gap: 0;
+	display: grid;
+	grid-template-areas:
+		"category"
+		"title"
+		"content";
+	gap: 0;
 }
 
-.layout_basic .category { grid-area: category; }
-.layout_basic .title    { grid-area: title; }
-.layout_basic .content  { grid-area: content; }
-
+.layout_basic .category {
+	grid-area: category;
+}
+.layout_basic .title {
+	grid-area: title;
+}
+.layout_basic .content {
+	grid-area: content;
+}
 
 /* ============================================
    2. 이미지 상단형 (image-top)
    카테고리 → 이미지1(대표) → 제목 → 본문
    ============================================ */
 .layout_image_top {
-  display: grid;
-  grid-template-areas:
-    "category"
-    "slot_1"
-    "title"
-    "content";
-  gap: var(--spacing-lg) 0;
+	display: grid;
+	grid-template-areas:
+		"category"
+		"slot_1"
+		"title"
+		"content";
+	gap: var(--spacing-lg) 0;
 }
 
-.layout_image_top .category { grid-area: category; }
-.layout_image_top .slot_1   { grid-area: slot_1; aspect-ratio: 16 / 7; }
-.layout_image_top .title    { grid-area: title; margin-bottom: 0; }
-.layout_image_top .content  { grid-area: content; }
-
+.layout_image_top .category {
+	grid-area: category;
+}
+.layout_image_top .slot_1 {
+	grid-area: slot_1;
+	aspect-ratio: 16 / 7;
+}
+.layout_image_top .title {
+	grid-area: title;
+	margin-bottom: 0;
+}
+.layout_image_top .content {
+	grid-area: content;
+}
 
 /* ============================================
    3. 좌측 이미지형 (image-left)
    이미지1이 좌측, 카테고리+제목+본문이 우측
    ============================================ */
 .layout_image_left {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "slot_1  category"
-    "slot_1  title"
-    "slot_1  content";
-  gap: 0 var(--spacing-xl);
+	display: grid;
+	grid-template-columns: 1fr 1.4fr;
+	grid-template-rows: auto auto 1fr;
+	grid-template-areas:
+		"slot_1  category"
+		"slot_1  title"
+		"slot_1  content";
+	gap: 0 var(--spacing-xl);
 }
 
-.layout_image_left .slot_1   { grid-area: slot_1; align-self: start; }
-.layout_image_left .category { grid-area: category; }
-.layout_image_left .title    { grid-area: title; }
-.layout_image_left .content  { grid-area: content; }
+.layout_image_left .slot_1 {
+	grid-area: slot_1;
+	align-self: start;
+}
+.layout_image_left .category {
+	grid-area: category;
+}
+.layout_image_left .title {
+	grid-area: title;
+}
+.layout_image_left .content {
+	grid-area: content;
+}
 
 /* 모바일: 1단으로 전환 */
 @media (max-width: 600px) {
-  .layout_image_left {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "category"
-      "slot_1"
-      "title"
-      "content";
-  }
+	.layout_image_left {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"category"
+			"slot_1"
+			"title"
+			"content";
+	}
 }
-
 
 /* ============================================
    4. 우측 이미지형 (image-right)
    카테고리+제목+본문이 좌측, 이미지1이 우측
    ============================================ */
 .layout_image_right {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "category  slot_1"
-    "title     slot_1"
-    "content   slot_1";
-  gap: 0 var(--spacing-xl);
+	display: grid;
+	grid-template-columns: 1.4fr 1fr;
+	grid-template-rows: auto auto 1fr;
+	grid-template-areas:
+		"category  slot_1"
+		"title     slot_1"
+		"content   slot_1";
+	gap: 0 var(--spacing-xl);
 }
 
-.layout_image_right .category { grid-area: category; }
-.layout_image_right .title    { grid-area: title; }
-.layout_image_right .content  { grid-area: content; }
-.layout_image_right .slot_1   { grid-area: slot_1; align-self: start; }
+.layout_image_right .category {
+	grid-area: category;
+}
+.layout_image_right .title {
+	grid-area: title;
+}
+.layout_image_right .content {
+	grid-area: content;
+}
+.layout_image_right .slot_1 {
+	grid-area: slot_1;
+	align-self: start;
+}
 
 @media (max-width: 600px) {
-  .layout_image_right {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "category"
-      "slot_1"
-      "title"
-      "content";
-  }
+	.layout_image_right {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"category"
+			"slot_1"
+			"title"
+			"content";
+	}
 }
-
 
 /* ============================================
    5. 2단 이미지형 (image-2col)
    이미지1 + 이미지2 나란히 → 제목 → 본문
    ============================================ */
 .layout_image_2col {
-  display: grid;
-  grid-template-areas:
-    "category category"
-    "slot_1   slot_2"
-    "title    title"
-    "content  content";
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg) var(--spacing-md);
+	display: grid;
+	grid-template-areas:
+		"category category"
+		"slot_1   slot_2"
+		"title    title"
+		"content  content";
+	grid-template-columns: 1fr 1fr;
+	gap: var(--spacing-lg) var(--spacing-md);
 }
 
-.layout_image_2col .category { grid-area: category; }
-.layout_image_2col .slot_1   { grid-area: slot_1; aspect-ratio: 4 / 3; }
-.layout_image_2col .slot_2   { grid-area: slot_2; aspect-ratio: 4 / 3; }
-.layout_image_2col .title    { grid-area: title; margin-bottom: 0; }
-.layout_image_2col .content  { grid-area: content; }
+.layout_image_2col .category {
+	grid-area: category;
+}
+.layout_image_2col .slot_1 {
+	grid-area: slot_1;
+	aspect-ratio: 4 / 3;
+}
+.layout_image_2col .slot_2 {
+	grid-area: slot_2;
+	aspect-ratio: 4 / 3;
+}
+.layout_image_2col .title {
+	grid-area: title;
+	margin-bottom: 0;
+}
+.layout_image_2col .content {
+	grid-area: content;
+}
 
 @media (max-width: 600px) {
-  .layout_image_2col {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "category"
-      "slot_1"
-      "slot_2"
-      "title"
-      "content";
-  }
+	.layout_image_2col {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"category"
+			"slot_1"
+			"slot_2"
+			"title"
+			"content";
+	}
 }
-
 
 /* ============================================
    6. 매거진형 (magazine)
    상단 대표이미지 → 제목 → 본문 → 하단 보조이미지 2개
    ============================================ */
 .layout_magazine {
-  display: grid;
-  grid-template-areas:
-    "category category"
-    "slot_1   slot_1"
-    "title    title"
-    "content  content"
-    "slot_2   slot_3";
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-lg) var(--spacing-md);
+	display: grid;
+	grid-template-areas:
+		"category category"
+		"slot_1   slot_1"
+		"title    title"
+		"content  content"
+		"slot_2   slot_3";
+	grid-template-columns: 1fr 1fr;
+	gap: var(--spacing-lg) var(--spacing-md);
 }
 
-.layout_magazine .category { grid-area: category; }
-.layout_magazine .slot_1   { grid-area: slot_1; aspect-ratio: 16 / 6; }
-.layout_magazine .title    { grid-area: title; margin-bottom: 0; }
-.layout_magazine .content  { grid-area: content; }
-.layout_magazine .slot_2   { grid-area: slot_2; aspect-ratio: 4 / 3; }
-.layout_magazine .slot_3   { grid-area: slot_3; aspect-ratio: 4 / 3; }
+.layout_magazine .category {
+	grid-area: category;
+}
+.layout_magazine .slot_1 {
+	grid-area: slot_1;
+	aspect-ratio: 16 / 6;
+}
+.layout_magazine .title {
+	grid-area: title;
+	margin-bottom: 0;
+}
+.layout_magazine .content {
+	grid-area: content;
+}
+.layout_magazine .slot_2 {
+	grid-area: slot_2;
+	aspect-ratio: 4 / 3;
+}
+.layout_magazine .slot_3 {
+	grid-area: slot_3;
+	aspect-ratio: 4 / 3;
+}
 
 @media (max-width: 600px) {
-  .layout_magazine {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "category"
-      "slot_1"
-      "title"
-      "content"
-      "slot_2"
-      "slot_3";
-  }
+	.layout_magazine {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"category"
+			"slot_1"
+			"title"
+			"content"
+			"slot_2"
+			"slot_3";
+	}
 }
