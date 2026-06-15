@@ -4,6 +4,7 @@ import ContentHeader from "@/components/layout/ContentHeader";
 import TipTapEditor from "@/components/common/TipTapEditor";
 import * as articleService from "@/services/articleService";
 import * as templateService from "@/services/templateService";
+import * as categoryService from "@/services/categoryService";
 import styles from "./ArticleWrite.module.css";
 
 // ============================================
@@ -21,7 +22,6 @@ import styles from "./ArticleWrite.module.css";
 //   이미지는 먼저 서버에 업로드 후 URL을 저장 (기사 저장과 분리)
 // ============================================
 
-const CATEGORIES = ["산업", "비즈니스", "경제", "경영", "테크", "문화", "사회"];
 
 // 이미지 슬롯 초기 상태 생성 헬퍼
 // slotLabels 배열로부터 { slot, url, name, uploading, previewUrl } 배열 생성
@@ -43,7 +43,8 @@ function ArticleWrite() {
   // 폼 상태
   const [title,    setTitle]    = useState("");
   const [content,  setContent]  = useState("");
-  const [category, setCategory] = useState(CATEGORIES[0]);
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory]     = useState("");
 
 
   // 템플릿 상태
@@ -62,16 +63,21 @@ function ArticleWrite() {
   useEffect(() => {
     async function init() {
       try {
-        // 템플릿 목록은 항상 로드
-        const tmplList = await templateService.getTemplates();
+        // 템플릿 목록 + 카테고리 목록 병렬 로드
+        const [tmplList, catList] = await Promise.all([
+          templateService.getTemplates(),
+          categoryService.getCategories(),
+        ]);
         setTemplates(tmplList);
+        setCategories(catList);
+        if (!isEdit && catList.length > 0) setCategory(catList[0].name);
 
         // 편집 모드: 기존 기사 데이터 로드
         if (isEdit) {
           const article = await articleService.getArticle(id);
           setTitle(article.title ?? "");
           setContent(article.content ?? "");
-          setCategory(article.category ?? CATEGORIES[0]);
+          setCategory(article.category ?? catList[0]?.name ?? "");
 
 
           if (article.templateId) {
@@ -274,8 +280,8 @@ function ArticleWrite() {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  {CATEGORIES.map((cat) => (
-                    <option key={cat} value={cat}>{cat}</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.name}>{cat.name}</option>
                   ))}
                 </select>
               </div>

@@ -29,6 +29,10 @@ router.post("/public/unsubscribe", subscriberController.publicUnsubscribe);
 // ── 일괄 처리 (/:id 보다 먼저 선언) ───────────
 router.post("/bulk", authMiddleware, subscriberController.bulkAction);
 
+// ── 월별 통계 ──────────────────────────────────
+router.get("/stats/monthly",      authMiddleware, subscriberController.getMonthlyStats);
+router.get("/stats/demographics", authMiddleware, subscriberController.getDemographicsStats);
+
 // ── 관리자 CRUD ────────────────────────────────
 router.get("/",    authMiddleware, subscriberController.getSubscribers);
 router.get("/:id", authMiddleware, subscriberController.getSubscriber);
@@ -36,5 +40,6 @@ router.post("/",   authMiddleware, subscriberController.createSubscriber);
 
 router.patch("/:id/deactivate", authMiddleware, subscriberController.deactivateSubscriber);
 router.patch("/:id/activate",   authMiddleware, subscriberController.activateSubscriber);
+router.patch("/:id/cancel",     authMiddleware, subscriberController.cancelSubscriber);
 
 export default router;

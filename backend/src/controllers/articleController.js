@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase.js";
+import { createNotification } from "./notificationController.js";
 
 function toClient(a) {
   return {
@@ -26,17 +27,19 @@ function toClient(a) {
 // GET /articles
 // Query: page, limit, search, status
 export async function getArticles(req, res) {
-  const page   = parseInt(req.query.page)  || 1;
-  const limit  = parseInt(req.query.limit) || 10;
-  const search = req.query.search?.trim()  || "";
-  const status = req.query.status          || "";
+  const page     = parseInt(req.query.page)  || 1;
+  const limit    = parseInt(req.query.limit) || 10;
+  const search   = req.query.search?.trim()  || "";
+  const status   = req.query.status          || "";
+  const category = req.query.category        || "";
 
   let query = supabase
     .from("articles")
     .select("*, author:users(id, name)", { count: "exact" });
 
-  if (status) query = query.eq("status", status);
-  if (search) query = query.or(`title.ilike.%${search}%,category.ilike.%${search}%`);
+  if (status)   query = query.eq("status", status);
+  if (category) query = query.eq("category", category);
+  if (search)   query = query.ilike("title", `%${search}%`);
 
   const { data, count, error } = await query
     .order("created_at", { ascending: false })
@@ -123,7 +126,8 @@ export async function updateArticle(req, res) {
     updated_at:  new Date().toISOString(),
   };
 
-  if (fields.status === "published") {
+  const wasPublished = fields.status === "published";
+  if (wasPublished) {
     updateData.published_at = new Date().toISOString();
   }
 
@@ -136,6 +140,14 @@ export async function updateArticle(req, res) {
 
   if (error || !article) {
     return res.status(404).json({ message: "기사를 찾을 수 없습니다." });
+  }
+
+  if (wasPublished) {
+    createNotification({
+      type: "article_published",
+      message: `기사 "${article.title}"이 발행되었습니다.`,
+      link: `/articles/${article.id}`,
+    });
   }
 
   // 이미지 슬롯 교체

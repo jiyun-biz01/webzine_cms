@@ -41,11 +41,20 @@ const menuData = [
 		],
 	},
 	{
+		id: "category",
+		icon: "🏷️",
+		label: "카테고리 관리",
+		children: [
+			{ id: "category-list", label: "카테고리 목록", path: "/categories" },
+		],
+	},
+	{
 		id: "subscriber",
 		icon: "📧",
 		label: "구독자 관리",
 		children: [
-			{ id: "subscriber-list", label: "구독자 목록", path: "/subscribers" },
+			{ id: "subscriber-list",  label: "구독자 목록", path: "/subscribers" },
+			{ id: "subscriber-stats", label: "구독자 통계", path: "/subscribers/stats" },
 		],
 	},
 ];

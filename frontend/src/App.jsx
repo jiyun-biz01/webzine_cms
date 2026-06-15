@@ -12,9 +12,11 @@ import WebzineHistory from "@/pages/WebzineHistory";
 import TemplateList from "@/pages/TemplateList";
 import SubscriberList from "@/pages/SubscriberList";
 import SubscriberDetail from "@/pages/SubscriberDetail";
+import SubscriberStats from "@/pages/SubscriberStats";
 import SubscribePage from "@/pages/SubscribePage";
 import ArticlePreview from "@/pages/ArticlePreview";
 import NotFound from "@/pages/NotFound";
+import CategoryList from "@/pages/CategoryList";
 
 // ============================================
 // ProtectedLayout - 로그인이 필요한 페이지들의 공통 래퍼
@@ -90,11 +92,14 @@ function App() {
             <Route path="/templates" element={<TemplateList />} />
 
             {/* 구독자 관리 */}
-            <Route path="/subscribers"     element={<SubscriberList />} />
-            <Route path="/subscribers/:id" element={<SubscriberDetail />} />
+            <Route path="/subscribers"        element={<SubscriberList />} />
+            <Route path="/subscribers/stats" element={<SubscriberStats />} />
+            <Route path="/subscribers/:id"   element={<SubscriberDetail />} />
+
+            {/* 카테고리 관리 */}
+            <Route path="/categories" element={<CategoryList />} />
 
             {/* 추후 추가 예정 */}
-            {/* <Route path="/categories"  element={<CategoryManage />} /> */}
             {/* <Route path="/media"       element={<MediaLibrary />} /> */}
             {/* <Route path="/users"       element={<UserList />} /> */}
             {/* <Route path="/settings"    element={<Settings />} /> */}

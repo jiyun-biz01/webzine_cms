@@ -19,8 +19,9 @@ export async function getSubscriber(id) {
 }
 
 // ── 관리자: 구독자 등록 ────────────────────────
-export async function createSubscriber(email) {
-	const response = await api.post("/subscribers", { email });
+// data: { email, name?, ageGroup?, region? }
+export async function createSubscriber(data) {
+	const response = await api.post("/subscribers", data);
 	return response.data;
 }
 
@@ -36,6 +37,12 @@ export async function activateSubscriber(id) {
 	return response.data;
 }
 
+// ── 관리자: 구독 취소 (영구, DB 보존) ──────────
+export async function cancelSubscriber(id) {
+	const response = await api.patch(`/subscribers/${id}/cancel`);
+	return response.data;
+}
+
 // ── 관리자: 일괄 처리 ─────────────────────────
 // action: "activate" | "deactivate"
 // ids: [1, 2, 3, ...]
@@ -45,6 +52,18 @@ export async function bulkDeactivate(ids) {
 
 export async function bulkActivate(ids) {
 	await api.post("/subscribers/bulk", { action: "activate", ids });
+}
+
+// ── 관리자: 월별 신규 구독자 통계 ──────────────
+export async function getMonthlyStats() {
+	const response = await api.get("/subscribers/stats/monthly");
+	return response.data;
+}
+
+// ── 관리자: 연령대 / 지역 분포 통계 ────────────
+export async function getDemographicsStats() {
+	const response = await api.get("/subscribers/stats/demographics");
+	return response.data;
 }
 
 // ── 공개: 구독 신청 ────────────────────────────

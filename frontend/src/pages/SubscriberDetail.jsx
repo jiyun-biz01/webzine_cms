@@ -28,7 +28,8 @@ function SubscriberDetail() {
 
 // ── 상세 뷰 ──────────────────────────────────────────────────
 function DetailView({ id, navigate }) {
-	const [toggling, setToggling] = useState(false);
+	const [toggling, setToggling]   = useState(false);
+	const [cancelling, setCancelling] = useState(false);
 
 	const { data: sub, loading, error, refetch } = useFetch(
 		() => subscriberService.getSubscriber(id),
@@ -53,11 +54,27 @@ function DetailView({ id, navigate }) {
 		}
 	};
 
+	const handleCancel = async () => {
+		if (!sub) return;
+		if (!window.confirm("구독을 취소하시겠습니까?\n취소 후에는 재활성화할 수 없습니다.")) return;
+
+		setCancelling(true);
+		try {
+			await subscriberService.cancelSubscriber(id);
+			refetch();
+		} catch (e) {
+			alert(e.message || "처리에 실패했습니다.");
+		} finally {
+			setCancelling(false);
+		}
+	};
+
 	if (loading) return <LoadingSpinner />;
 	if (error)   return <EmptyState icon="⚠" message={`오류: ${error}`} />;
 	if (!sub)    return null;
 
-	const isActive = sub.status === "active";
+	const isActive    = sub.status === "active";
+	const isCancelled = sub.status === "cancelled";
 
 	return (
 		<>
@@ -77,8 +94,8 @@ function DetailView({ id, navigate }) {
 				<div className="card">
 					<div className="card-header">
 						<h3>구독자 정보</h3>
-						<span className={`badge ${isActive ? "badge-success" : "badge-danger"}`}>
-							{isActive ? "활성" : "비활성"}
+						<span className={`badge ${isActive ? "badge-success" : isCancelled ? "badge-danger" : "badge-warning"}`}>
+							{isActive ? "활성" : isCancelled ? "구독 취소" : "비활성"}
 						</span>
 					</div>
 					<div className="card-body">
@@ -86,28 +103,54 @@ function DetailView({ id, navigate }) {
 							<dt>이메일</dt>
 							<dd className={styles.email}>{sub.email}</dd>
 
+							<dt>이름</dt>
+							<dd>{sub.name ?? "-"}</dd>
+
+							<dt>연령층</dt>
+							<dd>{sub.age_group ?? "-"}</dd>
+
+							<dt>지역</dt>
+							<dd>{sub.region ?? "-"}</dd>
+
 							<dt>상태</dt>
 							<dd>
-								<span className={`badge ${isActive ? "badge-success" : "badge-danger"}`}>
-									{isActive ? "활성" : "비활성"}
+								<span className={`badge ${isActive ? "badge-success" : isCancelled ? "badge-danger" : "badge-warning"}`}>
+									{isActive ? "활성" : isCancelled ? "구독 취소" : "비활성"}
 								</span>
 							</dd>
 
 							<dt>구독 신청일</dt>
-							<dd>{sub.subscribedAt ?? "-"}</dd>
+							<dd>{sub.subscribed_at ? new Date(sub.subscribed_at).toLocaleDateString("ko-KR") : "-"}</dd>
 
 							<dt>구독 취소일</dt>
-							<dd>{sub.unsubscribedAt ?? "-"}</dd>
+							<dd>{sub.unsubscribed_at ? new Date(sub.unsubscribed_at).toLocaleDateString("ko-KR") : "-"}</dd>
 						</dl>
 					</div>
 					<div className="card-footer">
-						<button
-							className={`btn ${isActive ? "btn-danger" : "btn-success"}`}
-							onClick={handleToggle}
-							disabled={toggling}
-						>
-							{toggling ? "처리 중..." : isActive ? "비활성화" : "활성화"}
-						</button>
+						{!isCancelled && (
+							<button
+								className={`btn ${isActive ? "btn-warning" : "btn-success"}`}
+								onClick={handleToggle}
+								disabled={toggling}
+							>
+								{toggling ? "처리 중..." : isActive ? "비활성화" : "활성화"}
+							</button>
+						)}
+						{!isCancelled && (
+							<button
+								className="btn btn-danger"
+								onClick={handleCancel}
+								disabled={cancelling}
+								style={{ marginLeft: "var(--spacing-sm)" }}
+							>
+								{cancelling ? "처리 중..." : "구독 취소"}
+							</button>
+						)}
+						{isCancelled && (
+							<span style={{ fontSize: "var(--fs-sm)", color: "var(--text-tertiary)" }}>
+								구독이 취소된 회원입니다.
+							</span>
+						)}
 					</div>
 				</div>
 			</div>

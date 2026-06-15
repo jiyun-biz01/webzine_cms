@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import ContentHeader from "@/components/layout/ContentHeader";
 import StatCard from "@/components/common/StatCard";
@@ -9,6 +9,7 @@ import EmptyState from "@/components/common/EmptyState";
 import LoadingSpinner from "@/components/common/LoadingSpinner";
 import useFetch from "@/hooks/useFetch";
 import * as articleService from "@/services/articleService";
+import * as categoryService from "@/services/categoryService";
 import styles from "./ArticleList.module.css";
 
 // ============================================
@@ -50,6 +51,15 @@ function ArticleList() {
 	const { pathname } = useLocation();
 	const [search, setSearch] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
+	const [category, setCategory] = useState("");
+	const [categories, setCategories] = useState([]);
+
+	useEffect(() => {
+		categoryService
+			.getCategories()
+			.then(setCategories)
+			.catch(() => {});
+	}, []);
 
 	// 현재 경로에 맞는 설정 꺼내기 (없으면 전체 목록)
 	const pageConfig = PATH_CONFIG[pathname] ?? {
@@ -60,18 +70,25 @@ function ArticleList() {
 
 	// useFetch: search, currentPage, pathname이 바뀔 때마다 자동으로 API 재호출
 	const { data, loading, error, refetch } = useFetch(
-		() => articleService.getArticles({
-			page: currentPage,
-			limit: ITEMS_PER_PAGE,
-			search,
-			...(pageConfig.status && { status: pageConfig.status }),
-		}),
-		[currentPage, search, pathname],
+		() =>
+			articleService.getArticles({
+				page: currentPage,
+				limit: ITEMS_PER_PAGE,
+				search,
+				...(pageConfig.status && { status: pageConfig.status }),
+				...(category && { category }),
+			}),
+		[currentPage, search, pathname, category],
 	);
 
-	// 검색어 바꾸면 1페이지로 초기화
+	// 검색어/카테고리 바꾸면 1페이지로 초기화
 	const handleSearch = (value) => {
 		setSearch(value);
+		setCurrentPage(1);
+	};
+
+	const handleCategory = (value) => {
+		setCategory(value);
 		setCurrentPage(1);
 	};
 
@@ -86,9 +103,9 @@ function ArticleList() {
 	const total = data?.total ?? 0;
 	const stats = data?.stats ?? [
 		{ label: "전체 기사", value: "-", delta: null, color: "primary" },
-		{ label: "발행됨",   value: "-", delta: null, color: "success" },
+		{ label: "발행됨", value: "-", delta: null, color: "success" },
 		{ label: "임시저장", value: "-", delta: null, color: "warning" },
-		{ label: "보관함",   value: "-", delta: null, color: "info" },
+		{ label: "보관함", value: "-", delta: null, color: "info" },
 	];
 
 	return (
@@ -100,7 +117,12 @@ function ArticleList() {
 				badge={{ text: `총 ${total}건`, type: "primary" }}
 				actions={[
 					{ label: "필터", icon: "⊟", variant: "btn-secondary" },
-					{ label: "기사 작성", icon: "✦", variant: "btn-primary", onClick: () => navigate("/articles/write") },
+					{
+						label: "기사 작성",
+						icon: "✦",
+						variant: "btn-primary",
+						onClick: () => navigate("/articles/write"),
+					},
 				]}
 			/>
 
@@ -116,11 +138,25 @@ function ArticleList() {
 				<div className="card">
 					<div className="card-header">
 						<h3>최근 기사</h3>
-						<SearchBar
-							value={search}
-							onChange={handleSearch}
-							placeholder="제목 또는 작성자 검색..."
-						/>
+						<div className={styles.filters}>
+							<select
+								className="form-select"
+								value={category}
+								onChange={(e) => handleCategory(e.target.value)}
+							>
+								<option value="">전체 카테고리</option>
+								{categories.map((cat) => (
+									<option key={cat.id} value={cat.name}>
+										{cat.name}
+									</option>
+								))}
+							</select>
+							<SearchBar
+								value={search}
+								onChange={handleSearch}
+								placeholder="제목 검색..."
+							/>
+						</div>
 					</div>
 
 					<div className="card-body">
@@ -157,8 +193,12 @@ function ArticleList() {
 									{articles.map((article) => (
 										<tr key={article.id}>
 											<td
-												className={`${styles.articleTitle} ${styles.articleTitleLink}`}
-												onClick={() => navigate(`/articles/${article.id}`)}
+												className={`${styles.articleTitle} ${styles.articleTitleLink} left`}
+												onClick={() =>
+													navigate(
+														`/articles/${article.id}`,
+													)
+												}
 											>
 												{article.title}
 											</td>
@@ -167,28 +207,52 @@ function ArticleList() {
 													{article.category}
 												</span>
 											</td>
-											<td>{article.author?.name ?? "-"}</td>
 											<td>
-												<StatusBadge status={article.status} />
+												{article.author?.name ?? "-"}
+											</td>
+											<td>
+												<StatusBadge
+													status={article.status}
+												/>
 											</td>
 											<td className="text-muted">
 												{article.publishedAt
-													? new Date(article.publishedAt).toLocaleDateString("ko-KR")
-													: new Date(article.createdAt).toLocaleDateString("ko-KR")}
+													? new Date(
+															article.publishedAt,
+														).toLocaleDateString(
+															"ko-KR",
+														)
+													: new Date(
+															article.createdAt,
+														).toLocaleDateString(
+															"ko-KR",
+														)}
 											</td>
 											<td>
-												{article.status !== "published" && (
-													<div className={styles.rowActions}>
+												{article.status !==
+													"published" && (
+													<div
+														className={
+															styles.rowActions
+														}
+													>
 														<button
 															className="btn btn-sm btn-secondary"
-															onClick={() => handleEdit(article.id)}
+															onClick={() =>
+																handleEdit(
+																	article.id,
+																)
+															}
 														>
 															편집
 														</button>
 														<button
 															className="btn btn-sm btn-danger"
 															onClick={() =>
-																handleDelete(article.id, refetch)
+																handleDelete(
+																	article.id,
+																	refetch,
+																)
 															}
 														>
 															삭제

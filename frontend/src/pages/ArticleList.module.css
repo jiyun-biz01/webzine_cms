@@ -30,9 +30,22 @@
 	text-decoration: underline;
 }
 
+.filters {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-sm);
+}
+
+.filters select {
+	height: 36px;
+	min-width: 140px;
+	font-size: var(--fs-sm);
+}
+
 .rowActions {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: var(--spacing-sm);
 }
 

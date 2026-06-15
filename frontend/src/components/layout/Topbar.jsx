@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import NotificationDropdown from "./NotificationDropdown";
 import styles from "./Topbar.module.css";
 
 function Topbar({ isDark, onToggleDark }) {
@@ -11,10 +12,7 @@ function Topbar({ isDark, onToggleDark }) {
 			</div>
 
 			<div className={styles.rightGroup}>
-				<button className={styles.iconBtn} title="알림">
-					🔔
-					<span className={styles.notiBadge}>3</span>
-				</button>
+				<NotificationDropdown />
 
 				<button
 					className={styles.iconBtn}

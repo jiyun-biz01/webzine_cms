@@ -8,6 +8,7 @@
 	width: 100%;
 	border-collapse: collapse;
 	table-layout: fixed;
+	text-align: center;
 	font-size: var(--fs-sm);
 }
 
@@ -38,10 +39,13 @@
 	border-bottom: none;
 }
 
-.tableCenter {
-	text-align:center;
+.table td.left {
+	text-align: left;
 }
 
+.tableCenter {
+	text-align: center;
+}
 
 /* ── 호버 옵션 ── */
 .table tbody tr {

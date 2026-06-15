@@ -4,11 +4,6 @@
 	gap: var(--spacing-lg);
 }
 
-.statGrid {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: var(--spacing-md);
-}
 
 /* 툴바: 필터 셀렉트 + 검색창 */
 .toolbar {
@@ -68,6 +63,54 @@
 
 .selectedRow {
 	background: var(--primary-lighter);
+}
+
+/* ── 등록 모달 ──────────────────────────────── */
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.45);
+	z-index: var(--z-modal-backdrop);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--spacing-md);
+}
+
+.modal {
+	background: var(--bg-primary);
+	border-radius: var(--border-radius-lg);
+	padding: var(--spacing-xl);
+	width: 100%;
+	max-width: 400px;
+	z-index: var(--z-modal);
+	box-shadow: var(--shadow-xl);
+}
+
+.modalTitle {
+	font-size: var(--fs-md);
+	font-weight: var(--fw-semibold);
+	margin-bottom: var(--spacing-lg);
+	color: var(--text-primary);
+}
+
+.modalActions {
+	display: flex;
+	justify-content: flex-end;
+	gap: var(--spacing-sm);
+	margin-top: var(--spacing-lg);
+}
+
+.formError {
+	color: var(--danger);
+	font-size: var(--fs-xs);
+	margin: var(--spacing-xs) 0;
+}
+
+.optional {
+	font-size: var(--fs-xs);
+	color: var(--text-tertiary);
+	font-weight: var(--fw-normal);
 }
 
 @media (max-width: 767px) {
